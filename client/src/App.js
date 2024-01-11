@@ -1,13 +1,14 @@
-import { Component } from 'react';
+import React from "react";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        Hello World!
-      </div>
-    );
-  }
-}
+import { BrowserRouter } from "react-router-dom";
+import Admin from "./admin";
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Admin />
+    </BrowserRouter>
+  );
+};
 
 export default App;
