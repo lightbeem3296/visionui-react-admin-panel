@@ -1,12 +1,12 @@
 import React from "react";
-
 import { BrowserRouter } from "react-router-dom";
-import Admin from "./admin";
+
+import AdminPage from "./admin";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Admin />
+      <AdminPage />
     </BrowserRouter>
   );
 };
