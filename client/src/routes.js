@@ -42,10 +42,13 @@
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+
+import Creedians from "layouts/creedian/creedians";
+import ChargeLog from "layouts/creedian/charge_log";
+import UseLog from "layouts/creedian/use_log";
 
 // Vision UI Dashboard React icons
 import { IoRocketSharp } from "react-icons/io5";
@@ -57,6 +60,7 @@ import { IoStatsChart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
 
 const routes = [
+  { type: "title", title: "Main Pages", key: "main-pages" },
   {
     type: "collapse",
     name: "Dashboard",
@@ -84,13 +88,32 @@ const routes = [
     component: Billing,
     noCollapse: true,
   },
+  { type: "title", title: "Creedians", key: "creedians-pages" },
   {
     type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    route: "/rtl",
-    icon: <IoBuild size="15px" color="inherit" />,
-    component: RTL,
+    name: "Creedians",
+    key: "creedians",
+    route: "/creedians",
+    icon: <IoHome size="15px" color="inherit" />,
+    component: Creedians,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Charge Log",
+    key: "charge log",
+    route: "/charge log",
+    icon: <IoHome size="15px" color="inherit" />,
+    component: ChargeLog,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Use Log",
+    key: "use log",
+    route: "/use log",
+    icon: <IoHome size="15px" color="inherit" />,
+    component: UseLog,
     noCollapse: true,
   },
   { type: "title", title: "Account Pages", key: "account-pages" },
