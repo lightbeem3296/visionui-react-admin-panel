@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
-import Datatable from "./components/datatable";
+import Datatable from "../components/Datatable";
 
 function Tables() {
 

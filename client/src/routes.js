@@ -43,18 +43,15 @@ import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 
-import Creedians from "layouts/creedian/creedians";
-import ChargeLog from "layouts/creedian/charge_log";
-import UseLog from "layouts/creedian/use_log";
+import Creedians from "pages/creedian/Creedians"
+import ChargeLog from "pages/creedian/ChangeLog";
+import UseLog from "pages/creedian/UseLog";
 
 // Vision UI Dashboard React icons
 import { IoRocketSharp } from "react-icons/io5";
 import { IoIosDocument } from "react-icons/io";
 import { BsFillPersonFill } from "react-icons/bs";
-import { IoBuild } from "react-icons/io5";
 import { BsCreditCardFill } from "react-icons/bs";
 import { IoStatsChart } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
@@ -88,12 +85,12 @@ const routes = [
     component: Billing,
     noCollapse: true,
   },
-  { type: "title", title: "Creedians", key: "creedians-pages" },
+  { type: "title", title: "Creedian", key: "creedians-pages" },
   {
     type: "collapse",
     name: "Creedians",
     key: "creedians",
-    route: "/admin/creedian/creedians",
+    route: "/creedian/creedians",
     icon: <IoHome size="15px" color="inherit" />,
     component: Creedians,
     noCollapse: true,
@@ -102,7 +99,7 @@ const routes = [
     type: "collapse",
     name: "Charge Log",
     key: "charge-log",
-    route: "/admin/creedian/charge-log",
+    route: "/creedian/charge-log",
     icon: <IoHome size="15px" color="inherit" />,
     component: ChargeLog,
     noCollapse: true,
@@ -111,37 +108,9 @@ const routes = [
     type: "collapse",
     name: "Use Log",
     key: "use-log",
-    route: "/admin/creedian/use-log",
+    route: "/creedian/use-log",
     icon: <IoHome size="15px" color="inherit" />,
     component: UseLog,
-    noCollapse: true,
-  },
-  { type: "title", title: "Account Pages", key: "account-pages" },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    route: "/profile",
-    icon: <BsFillPersonFill size="15px" color="inherit" />,
-    component: Profile,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/authentication/sign-in",
-    icon: <IoIosDocument size="15px" color="inherit" />,
-    component: SignIn,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
-    icon: <IoRocketSharp size="15px" color="inherit" />,
-    component: SignUp,
     noCollapse: true,
   },
 ];

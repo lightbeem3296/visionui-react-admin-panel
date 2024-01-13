@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { Space, Table, Tag, theme, ConfigProvider } from 'antd';
+import AxiosClient from 'AxiosClient';
 
 export default class Datatable extends Component {
   constructor(props) {
@@ -9,9 +10,13 @@ export default class Datatable extends Component {
   }
 
   fetchTable() {
-    fetch(this.props.url)
-      .then(res => res.json())
-      .then(res => this.setState({ table_data: res }));
+    AxiosClient.get(this.props.url)
+      .then((res) => {
+        this.setState({ table_data: res.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   componentDidMount() {

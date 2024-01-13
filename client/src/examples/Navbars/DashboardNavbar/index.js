@@ -138,6 +138,14 @@ function DashboardNavbar({ absolute, light, isMini }) {
     </Menu>
   );
 
+  const onLogoutHandler = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("loggedIn");
+    location.href = "/login";
+  }
+
   return (
     <AppBar
       position={absolute ? "absolute" : navbarType}
@@ -166,24 +174,22 @@ function DashboardNavbar({ absolute, light, isMini }) {
               />
             </VuiBox>
             <VuiBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in">
-                <IconButton sx={navbarIconButton} size="small">
-                  <Icon
-                    sx={({ palette: { dark, white } }) => ({
-                      color: light ? white.main : dark.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <VuiTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color={light ? "white" : "dark"}
-                  >
-                    Sign in
-                  </VuiTypography>
-                </IconButton>
-              </Link>
+              <IconButton sx={navbarIconButton} size="small" onClick={onLogoutHandler}>
+                <Icon
+                  sx={({ palette: { dark, white } }) => ({
+                    color: light ? white.main : dark.main,
+                  })}
+                >
+                  power_settings_new
+                </Icon>
+                <VuiTypography
+                  variant="button"
+                  fontWeight="medium"
+                  color={light ? "white" : "dark"}
+                >
+                  Logout
+                </VuiTypography>
+              </IconButton>
               <IconButton
                 size="small"
                 color="inherit"

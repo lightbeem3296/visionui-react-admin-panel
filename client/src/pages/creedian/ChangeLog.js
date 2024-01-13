@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
-import Datatable from "./components/datatable";
+import Datatable from "../components/Datatable";
 
 function Tables() {
 
@@ -125,7 +125,7 @@ function Tables() {
                 },
               }}
             >
-              <Datatable columns={columns} url={"http://localhost:9000/admin/user_creedians_charge_log"} />
+              <Datatable columns={columns} url={"/admin/user_creedians_charge_log"} />
             </VuiBox>
           </Card>
         </VuiBox>
