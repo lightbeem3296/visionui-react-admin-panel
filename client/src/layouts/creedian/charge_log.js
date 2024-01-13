@@ -27,18 +27,78 @@ import VuiTypography from "components/VuiTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import Table from "examples/Tables/Table";
+
+import Datatable from "./components/datatable";
 
 function Tables() {
 
   const columns = [
-    { name: "author", align: "left" },
-    { name: "function", align: "left" },
-    { name: "status", align: "center" },
-    { name: "employed", align: "center" },
-    { name: "action", align: "center" },
+    {
+      title: 'User Id',
+      dataIndex: 'user_id',
+      key: 'user_id',
+    },
+    {
+      title: 'User No',
+      dataIndex: 'user_no',
+      key: 'user_no',
+    },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+    },
+    {
+      title: 'Character Name',
+      dataIndex: 'character_name',
+      key: 'character_name',
+    },
+    {
+      title: 'Character No',
+      dataIndex: 'character_no',
+      key: 'character_no',
+    },
+    {
+      title: 'Charge Type',
+      dataIndex: 'charge_type',
+      key: 'charge_type',
+    },
+    {
+      title: 'Map',
+      dataIndex: 'map',
+      key: 'map',
+    },
+    {
+      title: 'X',
+      dataIndex: 'x',
+      key: 'x',
+    },
+    {
+      title: 'Y',
+      dataIndex: 'y',
+      key: 'y',
+    },
+    {
+      title: 'Item Tag',
+      dataIndex: 'item_tag',
+      key: 'item_tag',
+    },
+    {
+      title: 'Item Index',
+      dataIndex: 'item_index',
+      key: 'item_index',
+    },
+    {
+      title: 'Log Date',
+      dataIndex: 'log_date',
+      key: 'log_date',
+    },
+    {
+      title: 'Log Index',
+      dataIndex: 'log_index',
+      key: 'log_index',
+    },
   ];
-  const rows = [];
 
   return (
     <DashboardLayout>
@@ -48,7 +108,7 @@ function Tables() {
           <Card>
             <VuiBox display="flex" justifyContent="space-between" alignItems="center" mb="22px">
               <VuiTypography variant="lg" color="white">
-                Authors table
+                Charge Log
               </VuiTypography>
             </VuiBox>
             <VuiBox
@@ -65,7 +125,7 @@ function Tables() {
                 },
               }}
             >
-              <Table columns={columns} rows={rows} />
+              <Datatable columns={columns} url={"http://localhost:9000/admin/user_creedians_charge_log"} />
             </VuiBox>
           </Card>
         </VuiBox>

@@ -21,6 +21,7 @@
 		"@mui/material": "^5.9.2",
 		"@mui/styled-engine": "5.1.1",
 		"@mui/styles": "^5.2.0",
+		"antd": "^5.12.8",
 		"apexcharts": "^3.30.0",
 		"chroma-js": "2.1.2",
 		"install": "^0.13.0",
