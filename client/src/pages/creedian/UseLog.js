@@ -29,35 +29,54 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 import Datatable from "../components/Datatable";
+import { Sorter } from "pages/components/Sorter";
 
 function Tables() {
 
   const columns = [
     {
-        title: 'User Id',
-        dataIndex: 'user_id',
-        key: 'user_id',
+      title: 'User Id',
+      dataIndex: 'user_id',
+      key: 'user_id',
+      sorter: {
+        compare: Sorter.DEFAILT,
       },
-      {
-        title: 'User No',
-        dataIndex: 'user_no',
-        key: 'user_no',
+      search: true,
+    },
+    {
+      title: 'User No',
+      dataIndex: 'user_no',
+      key: 'user_no',
+      sorter: {
+        compare: Sorter.DEFAILT,
       },
-      {
-        title: 'Amount',
-        dataIndex: 'amount',
-        key: 'amount',
+      search: true,
+    },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+      sorter: {
+        compare: Sorter.DEFAILT,
       },
-      {
-        title: 'Use Type',
-        dataIndex: 'use_type',
-        key: 'use_type',
+    },
+    {
+      title: 'Use Type',
+      dataIndex: 'use_type',
+      key: 'use_type',
+      sorter: {
+        compare: Sorter.DEFAILT,
       },
-      {
-        title: 'Use Date',
-        dataIndex: 'use_date',
-        key: 'use_date',
+      search: true,
+    },
+    {
+      title: 'Use Date',
+      dataIndex: 'use_date',
+      key: 'use_date',
+      sorter: {
+        compare: Sorter.DATE,
       },
+    },
   ];
 
   return (

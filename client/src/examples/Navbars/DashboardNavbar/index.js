@@ -174,22 +174,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
               />
             </VuiBox>
             <VuiBox color={light ? "white" : "inherit"}>
-              <IconButton sx={navbarIconButton} size="small" onClick={onLogoutHandler}>
-                <Icon
-                  sx={({ palette: { dark, white } }) => ({
-                    color: light ? white.main : dark.main,
-                  })}
-                >
-                  power_settings_new
-                </Icon>
-                <VuiTypography
-                  variant="button"
-                  fontWeight="medium"
-                  color={light ? "white" : "dark"}
-                >
-                  Logout
-                </VuiTypography>
-              </IconButton>
               <IconButton
                 size="small"
                 color="inherit"
@@ -216,6 +200,22 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleOpenMenu}
               >
                 <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
+              </IconButton>
+              <IconButton sx={navbarIconButton} size="small" onClick={onLogoutHandler}>
+                <Icon
+                  sx={({ palette: { dark, white } }) => ({
+                    color: light ? white.main : dark.main,
+                  })}
+                >
+                  power_settings_new
+                </Icon>
+                <VuiTypography
+                  variant="button"
+                  fontWeight="medium"
+                  color={light ? "white" : "dark"}
+                >
+                  Logout
+                </VuiTypography>
               </IconButton>
               {renderMenu()}
             </VuiBox>

@@ -29,6 +29,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 import Datatable from "../components/Datatable";
+import { Sorter } from "pages/components/Sorter";
 
 function Tables() {
 
@@ -37,66 +38,91 @@ function Tables() {
       title: 'User Id',
       dataIndex: 'user_id',
       key: 'user_id',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'User No',
       dataIndex: 'user_no',
       key: 'user_no',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
     },
     {
       title: 'Character Name',
       dataIndex: 'character_name',
       key: 'character_name',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'Character No',
       dataIndex: 'character_no',
       key: 'character_no',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'Charge Type',
       dataIndex: 'charge_type',
       key: 'charge_type',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'Map',
       dataIndex: 'map',
       key: 'map',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'X',
       dataIndex: 'x',
       key: 'x',
+      search: true,
     },
     {
       title: 'Y',
       dataIndex: 'y',
       key: 'y',
-    },
-    {
-      title: 'Item Tag',
-      dataIndex: 'item_tag',
-      key: 'item_tag',
+      search: true,
     },
     {
       title: 'Item Index',
       dataIndex: 'item_index',
       key: 'item_index',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
     },
     {
       title: 'Log Date',
       dataIndex: 'log_date',
       key: 'log_date',
-    },
-    {
-      title: 'Log Index',
-      dataIndex: 'log_index',
-      key: 'log_index',
+      sorter: {
+        compare: Sorter.DATE,
+      },
     },
   ];
 

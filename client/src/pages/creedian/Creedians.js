@@ -29,6 +29,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 
 import Datatable from "../components/Datatable";
+import { Sorter } from "pages/components/Sorter";
 
 function Tables() {
 
@@ -37,21 +38,35 @@ function Tables() {
       title: 'User Id',
       dataIndex: 'user_id',
       key: 'user_id',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'User No',
       dataIndex: 'user_no',
       key: 'user_no',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
+      search: true,
     },
     {
       title: 'Creedian',
       dataIndex: 'creedian',
       key: 'creedian',
+      sorter: {
+        compare: Sorter.DEFAILT,
+      },
     },
     {
       title: 'Log Date',
       dataIndex: 'log_date',
       key: 'log_date',
+      sorter: {
+        compare: Sorter.DATE,
+      },
     },
   ];
 
