@@ -64,7 +64,6 @@ import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 
 const routes = [
-  { type: "title", title: "Main Pages", key: "main-pages" },
   {
     type: "collapse",
     name: "Dashboard",
@@ -74,15 +73,7 @@ const routes = [
     component: Dashboard,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Tables",
-    key: "tables",
-    route: "/tables",
-    icon: <IoStatsChart size="15px" color="inherit" />,
-    component: Tables,
-    noCollapse: true,
-  },
+  { type: "title", title: "Items", key: "items-pages" },
   {
     type: "collapse",
     name: "Billing",

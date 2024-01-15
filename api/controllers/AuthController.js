@@ -1,8 +1,14 @@
 const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 
 
 exports.signin = async (req, res) => {
   const { username, password } = req.body;
+
+  const pwdHash = md5(password);
+
+  console.log(password);
+  console.log(pwdHash);
 
   if (username != "admin" || password != "1234") {
     return res.status(400).json({

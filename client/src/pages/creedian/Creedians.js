@@ -42,6 +42,8 @@ function Tables() {
         compare: Sorter.DEFAILT,
       },
       search: true,
+      width: "270px",
+      fixed: 'left',
     },
     {
       title: 'User No',

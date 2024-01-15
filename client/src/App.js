@@ -78,10 +78,10 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
-  const getRoutes = (allRoutes) =>
+  const getSidenavRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
-        return getRoutes(route.collapse);
+        return getSidenavRoutes(route.collapse);
       }
       if (route.route) {
         return <ProtectedRoute exact path={route.route} key={route.key} component={route.component} />
@@ -132,11 +132,13 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Switch>
-        {getRoutes(routes)}
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/creedian" component={Creedians} />
+        {getSidenavRoutes(routes)}
+
+        <ProtectedRoute exact path="/" component={Dashboard} />
+        <ProtectedRoute exact path="/creedian" component={Creedians} />
+
         <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
+
         <Redirect from="*" to="/login" />
       </Switch>
     </ThemeProvider>

@@ -12,6 +12,7 @@ export default function Datatable(props) {
     pagination: {
       current: 1,
       pageSize: 10,
+      pageSizeOptions: [5, 10, 20, 50, 100],
     },
   });
 
@@ -171,12 +172,27 @@ export default function Datatable(props) {
   return (
     <ConfigProvider theme={{ algorithm: darkAlgorithm }}>
       <Table
-        columns={columns}
+        columns={columns.map((column) => ({
+          ...column,
+          onHeaderCell: () => ({
+            style: {
+              background: "#00003080",
+            },
+          }),
+          onCell: () => ({
+            style: {
+              background: "#00006080",
+            },
+          }),
+        }))}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
         onChange={handleTableChange}
         style={{ overflowX: "hidden" }}
+        scroll={{
+          x: "100%",
+        }}
       />
     </ConfigProvider>
   );
