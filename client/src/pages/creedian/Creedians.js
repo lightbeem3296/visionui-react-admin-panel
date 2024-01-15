@@ -37,7 +37,7 @@ function Tables() {
     {
       title: 'User Id',
       dataIndex: 'user_id',
-      key: 'user_id',
+      // key: 'user_id',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -48,7 +48,6 @@ function Tables() {
     {
       title: 'User No',
       dataIndex: 'user_no',
-      key: 'user_no',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -57,7 +56,6 @@ function Tables() {
     {
       title: 'Creedian',
       dataIndex: 'creedian',
-      key: 'creedian',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -65,7 +63,6 @@ function Tables() {
     {
       title: 'Log Date',
       dataIndex: 'log_date',
-      key: 'log_date',
       sorter: {
         compare: Sorter.DATE,
       },
@@ -80,7 +77,7 @@ function Tables() {
           <Card>
             <VuiBox display="flex" justifyContent="space-between" alignItems="center" mb="22px">
               <VuiTypography variant="lg" color="white">
-                Charge Log
+                Creedians
               </VuiTypography>
             </VuiBox>
             <VuiBox

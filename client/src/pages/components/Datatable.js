@@ -162,8 +162,7 @@ export default function Datatable(props) {
   const columns = props.columns.map((column) => {
     if (column.search) {
       return { ...column, ...getColumnSearchProps(column.dataIndex) };
-    }
-    else {
+    } else {
       return column;
     }
   });

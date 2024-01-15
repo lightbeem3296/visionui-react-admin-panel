@@ -89,7 +89,7 @@ function Tables() {
           <Card>
             <VuiBox display="flex" justifyContent="space-between" alignItems="center" mb="22px">
               <VuiTypography variant="lg" color="white">
-                Charge Log
+                Use Log
               </VuiTypography>
             </VuiBox>
             <VuiBox

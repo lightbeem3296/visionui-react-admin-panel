@@ -53,8 +53,16 @@ router.get("/user_creedians", isAuthenticated, function (req, res, next) {
         var reqData = new sql.Request();
         reqData.query(`SELECT * FROM [user_creedians] ${query}`, function (err, result) {
           if (err) console.log(err);
+
+          const data = result.recordset.map((item, index) => {
+            return {
+              key: index,
+              ...item,
+            }
+          });
+
           res.send({
-            results: result.recordset,
+            results: data,
             info: {
               total: totalCount,
             },
@@ -110,8 +118,16 @@ router.get("/user_creedians_charge_log", isAuthenticated, function (req, res, ne
         var reqData = new sql.Request();
         reqData.query(`SELECT * FROM [user_creedians_charge_log] ${query}`, function (err, result) {
           if (err) console.log(err);
+
+          const data = result.recordset.map((item, index) => {
+            return {
+              key: index,
+              ...item,
+            }
+          });
+
           res.send({
-            results: result.recordset,
+            results: data,
             info: {
               total: totalCount,
             },
@@ -162,8 +178,16 @@ router.get("/user_creedians_use_log", isAuthenticated, function (req, res, next)
         var reqData = new sql.Request();
         reqData.query(`SELECT * FROM [user_creedians_use_log] ${query}`, function (err, result) {
           if (err) console.log(err);
+
+          const data = result.recordset.map((item, index) => {
+            return {
+              key: index,
+              ...item,
+            }
+          });
+
           res.send({
-            results: result.recordset,
+            results: data,
             info: {
               total: totalCount,
             },

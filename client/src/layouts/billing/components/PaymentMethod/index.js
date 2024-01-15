@@ -44,7 +44,7 @@ function PaymentMethod() {
     <Card id="delete-account">
       <VuiBox display="flex" justifyContent="space-between" alignItems="center" mb="32px">
         <VuiTypography variant="lg" fontWeight="bold" color="white">
-          Payment Method
+          Payment Methods
         </VuiTypography>
         <VuiButton variant="contained" color="info">
           ADD NEW CARD
