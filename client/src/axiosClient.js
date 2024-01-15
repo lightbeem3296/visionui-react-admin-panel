@@ -23,16 +23,33 @@ AxiosClient.interceptors.request.use(
   }
 );
 
+const doRefreshToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  const username = localStorage.getItem("username");
+  try {
+    const resp = await AxiosClient
+      .post(`${API}/auth/refresh`, {
+        username: username,
+        refreshToken: refreshToken,
+      });
+    if (resp.status === 200) {
+      localStorage.setItem("accessToken", resp.data.accessToken);
+    }
+  } catch (errr) {
+    console.log(error);
+  }
+};
+
 AxiosClient.interceptors.response.use(
   (response) => {
     return response;
   },
-  function (error) {
+  async (error) => {
     const originalRequest = error.config;
 
     if (
       error.response.status === 401 &&
-      originalRequest.url === `${API}/refresh`
+      originalRequest.url === `${API}/auth/refresh`
     ) {
       localStorage.setItem("loggedIn", false);
       return Promise.reject(error);
@@ -40,25 +57,8 @@ AxiosClient.interceptors.response.use(
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("refreshToken");
-      const username = localStorage.getItem("username");
-      return axios
-        .post(`/auth/refresh`, {
-          username: username,
-          refreshToken: refreshToken,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            localStorage.setItem("accessToken", res.data.accessToken);
-            axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
-            return axios(originalRequest);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          localStorage.setItem("loggedIn", false);
-          return Promise.reject(error);
-        });
+      await doRefreshToken();
+      return AxiosClient(originalRequest);
     }
     localStorage.setItem("loggedIn", false);
     return Promise.reject(error);

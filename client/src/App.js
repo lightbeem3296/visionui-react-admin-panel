@@ -45,6 +45,7 @@ import Register from "pages/Register";
 import { useVisionUIController, setMiniSidenav, setOpenConfigurator } from "context";
 import ProtectedRoute from "pages/components/ProtectedRoute";
 import Dashboard from "layouts/dashboard";
+import Creedians from "pages/creedian/Creedians";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -133,6 +134,7 @@ export default function App() {
       <Switch>
         {getRoutes(routes)}
         <Route exact path="/" component={Dashboard} />
+        <Route exact path="/creedian" component={Creedians} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Redirect from="*" to="/login" />

@@ -49,12 +49,19 @@ import ChargeLog from "pages/creedian/ChangeLog";
 import UseLog from "pages/creedian/UseLog";
 
 // Vision UI Dashboard React icons
-import { IoRocketSharp } from "react-icons/io5";
-import { IoIosDocument } from "react-icons/io";
-import { BsFillPersonFill } from "react-icons/bs";
 import { BsCreditCardFill } from "react-icons/bs";
-import { IoStatsChart } from "react-icons/io5";
-import { IoHome } from "react-icons/io5";
+import {
+  IoStatsChart,
+  IoHome,
+  IoTrendingUp,
+  IoTrendingDown,
+  IoTrendingDownOutline,
+  IoTv,
+  IoWallet,
+} from "react-icons/io5";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 
 const routes = [
   { type: "title", title: "Main Pages", key: "main-pages" },
@@ -91,7 +98,7 @@ const routes = [
     name: "Creedians",
     key: "creedians",
     route: "/creedian/creedians",
-    icon: <IoHome size="15px" color="inherit" />,
+    icon: <RiMoneyDollarCircleFill size="15px" color="inherit" />,
     component: Creedians,
     noCollapse: true,
   },
@@ -100,7 +107,7 @@ const routes = [
     name: "Charge Log",
     key: "charge-log",
     route: "/creedian/charge-log",
-    icon: <IoHome size="15px" color="inherit" />,
+    icon: <HiTrendingUp size="15px" color="inherit" />,
     component: ChargeLog,
     noCollapse: true,
   },
@@ -109,7 +116,7 @@ const routes = [
     name: "Use Log",
     key: "use-log",
     route: "/creedian/use-log",
-    icon: <IoHome size="15px" color="inherit" />,
+    icon: <HiTrendingDown size="15px" color="inherit" />,
     component: UseLog,
     noCollapse: true,
   },

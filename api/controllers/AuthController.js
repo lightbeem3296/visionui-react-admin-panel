@@ -4,9 +4,6 @@ const jwt = require('jsonwebtoken');
 exports.signin = async (req, res) => {
   const { username, password } = req.body;
 
-  console.log(username);
-  console.log(password);
-
   if (username != "admin" || password != "1234") {
     return res.status(400).json({
       success: false,
@@ -15,10 +12,10 @@ exports.signin = async (req, res) => {
   }
 
   const accessToken = jwt.sign({ username: username }, 'accessSecret', {
-    expiresIn: "2m",
+    expiresIn: "5m",
   });
   const refreshToken = jwt.sign({ username: username }, 'refreshSecret', {
-    expiresIn: "10m",
+    expiresIn: "24h",
   })
 
   return res.status(200).json({ accessToken, refreshToken });
@@ -29,15 +26,14 @@ verifyRefresh = (username, token) => {
     const decoded = jwt.verify(token, "refreshSecret");
     return decoded.username === username;
   } catch (error) {
-    // console.error(error);
+    console.error(error);
     return false;
   }
 };
 
 exports.refresh = (req, res) => {
   const { username, refreshToken } = req.body;
-
-  const isValid = this.verifyRefresh(username, refreshToken);
+  const isValid = verifyRefresh(username, refreshToken);
   if (!isValid) {
     return res
       .status(401)
@@ -45,7 +41,7 @@ exports.refresh = (req, res) => {
   }
 
   const accessToken = jwt.sign({ username: username }, "accessSecret", {
-    expiresIn: "2m",
+    expiresIn: "5m",
   });
 
   return res.status(200).json({ success: true, accessToken });

@@ -25,7 +25,6 @@ export default class Datatable extends Component {
 
   render() {
     const { darkAlgorithm } = theme;
-
     return (
       <ConfigProvider theme={{ algorithm: darkAlgorithm }}>
         <Table columns={this.props.columns} dataSource={this.state.table_data} style={{ overflowX: "hidden" }} />
