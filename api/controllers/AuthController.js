@@ -53,20 +53,6 @@ exports.refresh = (req, res) => {
   return res.status(200).json({ success: true, accessToken });
 }
 
-exports.check = (req, res) => {
-  try {
-    let token = req.headers["authorization"];
-    if (!token) {
-      return res.status(404).json({ success: false, msg: "Token not found" });
-    }
-    token = token.split(" ")[1];
-    const decoded = jwt.verify(token, "accessSecret");
-    return res.status(200).json({ username: decoded.username });
-  } catch (error) {
-    return res.status(401).json({ success: false, msg: error.message });
-  }
-}
-
 exports.isAuthenticated = (req, res, next) => {
   try {
     let token = req.headers["authorization"];
