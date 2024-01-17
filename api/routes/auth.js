@@ -4,7 +4,7 @@ const { signin, refresh } = require("../controllers/AuthController");
 
 router.post(
     "/signin",
-    signin
+    signin,
 );
 
 router.post(

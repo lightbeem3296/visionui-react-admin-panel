@@ -35,7 +35,7 @@ const doRefreshToken = async () => {
     if (resp.status === 200) {
       localStorage.setItem("accessToken", resp.data.accessToken);
     }
-  } catch (errr) {
+  } catch (error) {
     console.log(error);
   }
 };

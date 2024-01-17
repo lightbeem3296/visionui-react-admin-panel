@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
 
+const port = 9000;
+
 var authRouter = require('./routes/auth');
 var adminRouter = require('./routes/admin');
 
@@ -40,4 +42,8 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// module.exports = app;
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+});
