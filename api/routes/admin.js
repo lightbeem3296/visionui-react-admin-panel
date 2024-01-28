@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var sql = require("mssql");
-var dbConfig = require("../config/db.js");
-var { isAuthenticated } = require("../controllers/AuthController.js");
+const express = require('express');
+const router = express.Router();
+const sql = require("mssql");
+const dbConfig = require("../config/db.js");
+const { isAuthenticated } = require("../controllers/AuthController.js");
 
 var config = {
   user: dbConfig.USER,

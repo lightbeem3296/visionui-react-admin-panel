@@ -40,8 +40,7 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 import bgSignIn from "assets/images/signInImage.jpg";
 
 
-import AxiosClient from "AxiosClient";
-import VuiAlert from "components/VuiAlert";
+import { AxiosClient } from "utils/AxiosClient";
 
 function Login() {
   const [username, setUsername] = useState("");

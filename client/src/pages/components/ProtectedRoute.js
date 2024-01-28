@@ -1,11 +1,6 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { CheckSignin } from '../../utils/Auth'
 
 export const ProtectedRoute = ({ children }) => {
-  const location = useLocation();
-  var loggedIn = localStorage.getItem("loggedIn");
-  if (loggedIn) {
-    return children;
-  } else {
-    return <Navigate to={"/signin?url=" + encodeURIComponent(location.pathname)} replace />;
-  }
+  CheckSignin(window.location.pathname);
+  return children;
 };

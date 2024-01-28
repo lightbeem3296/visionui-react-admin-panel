@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Input, Button, Space, Table, theme, ConfigProvider } from 'antd';
 import qs from 'qs';
-import AxiosClient from 'AxiosClient';
+import { AxiosClient } from 'utils/AxiosClient';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 

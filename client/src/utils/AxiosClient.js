@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = "http://localhost:9000";
 
-const AxiosClient = axios.create({
+export const AxiosClient = axios.create({
   baseURL: API,
   headers: {
     "content-type": "application/json;charset=UTF-8",
@@ -64,5 +64,3 @@ AxiosClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export default AxiosClient;
