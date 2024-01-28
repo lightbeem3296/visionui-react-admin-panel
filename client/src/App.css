@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lb-transition {
+  transition: all 500ms;
+}
+
+.lb-btn-color-sel {
+  background-color: #b58c33;
+}
+
+.lb-btn-color-sel:hover {
+  background-color: #d6ae58;
+}

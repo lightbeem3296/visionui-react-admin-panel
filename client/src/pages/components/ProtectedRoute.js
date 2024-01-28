@@ -1,29 +1,11 @@
-import React from 'react'
-import { Route, Redirect } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ component: Comp, path, ...rest }) => {
+export const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
   var loggedIn = localStorage.getItem("loggedIn");
-  return (
-    <Route
-      path={path}
-      {...rest}
-      render={(props) => {
-        return loggedIn === "true" ? (
-          <Comp {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: {
-                prevLocation: path,
-                error: "You need to login first!",
-              },
-            }}
-          />
-        );
-      }}
-    />
-  );
+  if (loggedIn) {
+    return children;
+  } else {
+    return <Navigate to={"/signin?url=" + encodeURIComponent(location.pathname)} replace />;
+  }
 };
-
-export default ProtectedRoute;

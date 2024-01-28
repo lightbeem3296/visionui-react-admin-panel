@@ -39,48 +39,39 @@
 */
 
 // Vision UI Dashboard React layouts
-import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import Profile from "layouts/profile";
 
-import Creedians from "pages/creedian/Creedians"
-import ChargeLog from "pages/creedian/ChangeLog";
-import UseLog from "pages/creedian/UseLog";
+import { CreedianCreedians } from "pages/creedian/Creedians"
+import { CreedianChargeLog } from "pages/creedian/ChargeLog";
+import { CreedianUseLog } from "pages/creedian/UseLog";
 
 // Vision UI Dashboard React icons
 import { BsCreditCardFill } from "react-icons/bs";
 import {
-  IoStatsChart,
   IoHome,
-  IoTrendingUp,
-  IoTrendingDown,
-  IoTrendingDownOutline,
-  IoTv,
-  IoWallet,
 } from "react-icons/io5";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
+import { Items } from "pages/Items";
+import { Dashboard } from "pages/Dashboard";
 
 const routes = [
   {
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
-    route: "/dashboard",
+    route: "dashboard",
     icon: <IoHome size="15px" color="inherit" />,
-    component: Dashboard,
+    elem: Dashboard,
     noCollapse: true,
   },
   { type: "title", title: "Items", key: "items-pages" },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
-    route: "/billing",
+    name: "Items",
+    key: "items",
+    route: "items",
     icon: <BsCreditCardFill size="15px" color="inherit" />,
-    component: Billing,
+    elem: Items,
     noCollapse: true,
   },
   { type: "title", title: "Creedian", key: "creedians-pages" },
@@ -88,27 +79,27 @@ const routes = [
     type: "collapse",
     name: "Creedians",
     key: "creedians",
-    route: "/creedian/creedians",
+    route: "creedians",
     icon: <RiMoneyDollarCircleFill size="15px" color="inherit" />,
-    component: Creedians,
+    elem: CreedianCreedians,
     noCollapse: true,
   },
   {
     type: "collapse",
     name: "Charge Log",
     key: "charge-log",
-    route: "/creedian/charge-log",
+    route: "charge-log",
     icon: <HiTrendingUp size="15px" color="inherit" />,
-    component: ChargeLog,
+    elem: CreedianChargeLog,
     noCollapse: true,
   },
   {
     type: "collapse",
     name: "Use Log",
     key: "use-log",
-    route: "/creedian/use-log",
+    route: "use-log",
     icon: <HiTrendingDown size="15px" color="inherit" />,
-    component: UseLog,
+    elem: CreedianUseLog,
     noCollapse: true,
   },
 ];

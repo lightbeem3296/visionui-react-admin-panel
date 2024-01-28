@@ -16,36 +16,35 @@
 
 */
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // react-router components
-import { Route, Switch, Redirect, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
+import { ThemeProvider } from "@mui/material/styles";
 
 // Vision UI Dashboard React components
 import VuiBox from "components/VuiBox";
 
 // Vision UI Dashboard React example components
-import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
+import Sidenav from "examples/Sidenav";
 
 // Vision UI Dashboard React themes
 import theme from "assets/theme";
 
 // Vision UI Dashboard React routes
-import routes from "routes";
 import Login from "pages/Login";
-import Register from "pages/Register";
+import routes from "routes";
+import './App.css';
 
 // Vision UI Dashboard React contexts
-import { useVisionUIController, setMiniSidenav, setOpenConfigurator } from "context";
-import ProtectedRoute from "pages/components/ProtectedRoute";
-import Dashboard from "layouts/dashboard";
-import Creedians from "pages/creedian/Creedians";
+import { setMiniSidenav, setOpenConfigurator, useVisionUIController } from "context";
+import { Layout } from "pages/Layout";
+import { ProtectedRoute } from "pages/components/ProtectedRoute";
 
 export default function App() {
   const [controller, dispatch] = useVisionUIController();
@@ -80,11 +79,12 @@ export default function App() {
 
   const getSidenavRoutes = (allRoutes) =>
     allRoutes.map((route) => {
-      if (route.collapse) {
-        return getSidenavRoutes(route.collapse);
-      }
       if (route.route) {
-        return <ProtectedRoute exact path={route.route} key={route.key} component={route.component} />
+        return <Route key={route.key} path={route.route} element={
+          <ProtectedRoute>
+            <route.elem />
+          </ProtectedRoute>
+        } />;
       }
       return null;
     });
@@ -131,16 +131,13 @@ export default function App() {
         </>
       )}
       {layout === "vr" && <Configurator />}
-      <Switch>
-        {getSidenavRoutes(routes)}
-
-        <ProtectedRoute exact path="/" component={Dashboard} />
-        <ProtectedRoute exact path="/creedian" component={Creedians} />
-
-        <Route exact path="/login" component={Login} />
-
-        <Redirect from="*" to="/login" />
-      </Switch>
+      <Routes>
+        <Route path='' element={<Layout />}>
+          {getSidenavRoutes(routes)}
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
     </ThemeProvider>
   );
 }
