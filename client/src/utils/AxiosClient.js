@@ -14,7 +14,7 @@ AxiosClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer||${localStorage.getItem('user_id')}||${token}`;
     }
     return config;
   },
@@ -25,18 +25,18 @@ AxiosClient.interceptors.request.use(
 
 const doRefreshToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  const username = localStorage.getItem("username");
+  const user_id = localStorage.getItem("user_id");
   try {
     const resp = await AxiosClient
       .post(`${API}/auth/refresh`, {
-        username: username,
+        user_id: user_id,
         refreshToken: refreshToken,
       });
     if (resp.status === 200) {
       localStorage.setItem("accessToken", resp.data.accessToken);
     }
-  } catch (error) {
-    console.log(error);
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -51,6 +51,7 @@ AxiosClient.interceptors.response.use(
       error.response.status === 401 &&
       originalRequest.url === `${API}/auth/refresh`
     ) {
+      console.log('logging out');
       localStorage.setItem("loggedIn", false);
       return Promise.reject(error);
     }

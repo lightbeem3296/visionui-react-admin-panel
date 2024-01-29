@@ -15,7 +15,7 @@ var config = {
   },
 };
 
-router.get("/user_creedians", isAuthenticated, function (req, res, next) {
+router.get("/user_creedians", function (req, res, next) {
   try {
     sql.connect(config, function (err) {
       if (err) console.log(err);
@@ -75,7 +75,7 @@ router.get("/user_creedians", isAuthenticated, function (req, res, next) {
   }
 });
 
-router.get("/user_creedians_charge_log", isAuthenticated, function (req, res, next) {
+router.get("/user_creedians_charge_log", function (req, res, next) {
   try {
     sql.connect(config, function (err) {
       if (err) console.log(err);
@@ -140,7 +140,7 @@ router.get("/user_creedians_charge_log", isAuthenticated, function (req, res, ne
   }
 });
 
-router.get("/user_creedians_use_log", isAuthenticated, function (req, res, next) {
+router.get("/user_creedians_use_log", function (req, res, next) {
   try {
     sql.connect(config, function (err) {
       if (err) console.log(err);
