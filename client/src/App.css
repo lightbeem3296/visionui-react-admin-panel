@@ -1,0 +1,11 @@
+.lb-btn-color {
+  background-color: #444444;
+}
+
+.lb-btn-color:hover {
+  background-color: #555555;
+}
+
+.lb-transition {
+  transition: all 500ms;
+}

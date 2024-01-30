@@ -3,7 +3,7 @@ import { SignInPage } from "./SignInPage";
 import { SignoutPage } from "./SignOutPage";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { DashboardPage } from "./DashboardPage";
-import { ItemsPage } from "./ItemsPage";
+import { ItemsPage } from "./ItemPage";
 import { CreediansPage } from "./creedian/CreediansPage";
 import { ChargeLogPage } from "./creedian/ChargeLogPage";
 import { UseLogPage } from "./creedian/UseLogPage";

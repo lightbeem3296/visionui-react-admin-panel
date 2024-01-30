@@ -5,7 +5,7 @@ import { AxiosClient } from '../utils/AxiosClient';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-export const Datatable = (props) => {
+export const Datatable = ({ url, columns }) => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
@@ -121,9 +121,9 @@ export const Datatable = (props) => {
       ),
   });
 
-  const fetchData = () => {
+  function fetchData() {
     setLoading(true);
-    AxiosClient.get(`${props.url}?${qs.stringify(tableParams)}`)
+    AxiosClient.get(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {
         setData(resp.data["results"]);
         setLoading(false);
@@ -157,7 +157,7 @@ export const Datatable = (props) => {
     }
   };
 
-  const columns = props.columns.map((column) => {
+  const columns_dt = columns.map((column) => {
     if (column.search) {
       return { ...column, ...getColumnSearchProps(column.dataIndex) };
     } else {
@@ -169,7 +169,7 @@ export const Datatable = (props) => {
   return (
     <ConfigProvider theme={{ algorithm: darkAlgorithm }}>
       <Table
-        columns={columns}
+        columns={columns_dt}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
