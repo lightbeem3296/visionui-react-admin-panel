@@ -1,4 +1,4 @@
-import AxiosClient from "./AxiosClient";
+import { AxiosClient } from "./AxiosClient";
 
 export const IsLoggedIn = () => {
   return localStorage.getItem('loggedIn') === "true";

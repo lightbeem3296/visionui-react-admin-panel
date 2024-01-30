@@ -1,4 +1,4 @@
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { itemTypeHeader, itemTypeItem, itemTypeSeparate, mainRouteItems } from "./Routes";
@@ -40,15 +40,16 @@ export const MainLayout = () => {
       if (routeItem.link && routeItem.link === curLink) {
         setCurRouteItem(routeItem);
       }
+      return null;
     });
   }, [curLink]);
 
   return (
-    <div className="flex flex-row sm:gap-00">
-      <div className="flex-none sm:w-full sm:max-w-[18rem]">
+    <div className="flex flex-row sm:gap-00 min-h-[100vh] bg-gradient-to-br from-indigo-800 to-blue-gray-900">
+      <div className="flex-none sm:w-full sm:max-w-[12rem]">
         <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
         <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
-        <aside className="justify-start h-full -translate-x-full sidebar sidebar-fixed-left sidebar-mobile max-sm:fixed sm:translate-x-0">
+        <aside className="justify-start h-full -translate-x-full sidebar sidebar-fixed-left sidebar-mobile max-sm:fixed sm:translate-x-0 w-[12rem] bg-gray-900/60">
           <section className="items-center p-4 sidebar-title">
             <svg fill="none" height="42" viewBox="0 0 32 32" width="42" xmlns="http://www.w3.org/2000/svg">
               <rect height="100%" rx="16" width="100%"></rect>
@@ -63,9 +64,7 @@ export const MainLayout = () => {
             <nav className="rounded-md menu">
               <section className="px-4 menu-section">
                 <ul className="menu-items">
-                  {
-                    mainRouteItems.map((item, index) => SidebarItem(item, index))
-                  }
+                  {mainRouteItems.map((item, index) => SidebarItem(item, index))}
                 </ul>
               </section>
             </nav>

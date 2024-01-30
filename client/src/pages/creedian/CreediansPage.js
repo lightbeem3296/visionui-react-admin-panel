@@ -7,12 +7,10 @@ export const CreediansPage = () => {
     {
       title: 'User Id',
       dataIndex: 'user_id',
-      // key: 'user_id',
       sorter: {
         compare: Sorter.DEFAILT,
       },
       search: true,
-      width: "270px",
       fixed: 'left',
     },
     {

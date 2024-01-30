@@ -13,6 +13,7 @@ export const Datatable = (props) => {
       current: 1,
       pageSize: 10,
       pageSizeOptions: [5, 10, 20, 50, 100],
+      position: ['topRight'],
     },
   });
 
@@ -31,9 +32,7 @@ export const Datatable = (props) => {
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
-        style={{
-          padding: 8,
-        }}
+        className='p-2 border border-gray-800 rounded-md bg-gray-900/60'
         onKeyDown={(e) => e.stopPropagation()}
       >
         <Input
@@ -49,7 +48,6 @@ export const Datatable = (props) => {
         />
         <Space>
           <Button
-            type="primary"
             onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
             icon={<SearchOutlined />}
             size="small"
@@ -135,16 +133,16 @@ export const Datatable = (props) => {
             ...tableParams.pagination,
             total: resp.data["info"]["total"],
           }
-        }
-        );
+        });
       })
       .catch((error) => {
         console.log(error);
       });
   }
+
   useEffect(() => {
     fetchData();
-  }, [JSON.stringify(tableParams)]);
+  }, [tableParams.pagination]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -171,9 +169,7 @@ export const Datatable = (props) => {
   return (
     <ConfigProvider theme={{ algorithm: darkAlgorithm }}>
       <Table
-        columns={columns.map((column) => ({
-          ...column,
-        }))}
+        columns={columns}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
@@ -181,6 +177,7 @@ export const Datatable = (props) => {
         style={{ overflowX: "hidden" }}
         scroll={{
           x: "100%",
+          y: "calc(100vh - 16rem)",
         }}
       />
     </ConfigProvider>

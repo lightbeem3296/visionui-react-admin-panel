@@ -12,7 +12,6 @@ export const UseLogPage = () => {
         compare: Sorter.DEFAILT,
       },
       search: true,
-      width: "270px",
       fixed: 'left',
     },
     {

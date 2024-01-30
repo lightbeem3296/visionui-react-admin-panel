@@ -6,7 +6,6 @@ export const ChargeLogPage = () => {
     {
       title: 'User Id',
       dataIndex: 'user_id',
-      key: 'user_id',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -16,7 +15,6 @@ export const ChargeLogPage = () => {
     {
       title: 'User No',
       dataIndex: 'user_no',
-      key: 'user_no',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -25,7 +23,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Amount',
       dataIndex: 'amount',
-      key: 'amount',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -33,7 +30,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Character Name',
       dataIndex: 'character_name',
-      key: 'character_name',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -42,7 +38,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Character No',
       dataIndex: 'character_no',
-      key: 'character_no',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -51,7 +46,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Charge Type',
       dataIndex: 'charge_type',
-      key: 'charge_type',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -60,7 +54,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Map',
       dataIndex: 'map',
-      key: 'map',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -69,19 +62,16 @@ export const ChargeLogPage = () => {
     {
       title: 'X',
       dataIndex: 'x',
-      key: 'x',
       search: true,
     },
     {
       title: 'Y',
       dataIndex: 'y',
-      key: 'y',
       search: true,
     },
     {
       title: 'Item Index',
       dataIndex: 'item_index',
-      key: 'item_index',
       sorter: {
         compare: Sorter.DEFAILT,
       },
@@ -89,7 +79,6 @@ export const ChargeLogPage = () => {
     {
       title: 'Log Date',
       dataIndex: 'log_date',
-      key: 'log_date',
       sorter: {
         compare: Sorter.DATE,
       },
