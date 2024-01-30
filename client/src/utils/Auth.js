@@ -16,11 +16,11 @@ export const CheckSignin = (url) => {
   AxiosClient.post(`/auth/check`)
     .then(() => { })
     .catch((error) => {
-      if (url === '/signout') {
+      if (url === '/sign-out') {
       } else {
         console.log(error);
         Signout();
-        window.location.href = "/signin?url=" + encodeURIComponent(url);
+        window.location.href = "/sign-in?url=" + encodeURIComponent(url);
       }
     });
 }

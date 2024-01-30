@@ -45,11 +45,11 @@ export const MainLayout = () => {
   }, [curLink]);
 
   return (
-    <div className="flex flex-row sm:gap-00 min-h-[100vh] bg-gradient-to-br from-indigo-800 to-blue-gray-900">
+    <div className="flex flex-row sm:gap-00 min-h-[100vh] bg-gradient-to-br from-indigo-900 to-blue-gray-900">
       <div className="flex-none sm:w-full sm:max-w-[12rem]">
         <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
         <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
-        <aside className="justify-start h-full -translate-x-full sidebar sidebar-fixed-left sidebar-mobile max-sm:fixed sm:translate-x-0 w-[12rem] bg-gray-900/60">
+        <aside className="justify-start h-full -translate-x-full sidebar sidebar-fixed-left sidebar-mobile max-sm:fixed sm:translate-x-0 w-[12rem] bg-gray-900/70 backdrop-blur-sm">
           <section className="items-center p-4 sidebar-title">
             <svg fill="none" height="42" viewBox="0 0 32 32" width="42" xmlns="http://www.w3.org/2000/svg">
               <rect height="100%" rx="16" width="100%"></rect>
@@ -71,11 +71,11 @@ export const MainLayout = () => {
           </section>
         </aside>
       </div>
-      <div className="flex flex-col w-full p-4">
+      <div className="flex flex-col w-full px-4 pt-4">
         <div className="w-full h-auto">
-          <div className="sticky mb-4 bg-gray-900/50 navbar navbar-rounded navbar-glass navbar-sticky">
+          <div className="sticky mb-4 rounded-lg bg-gray-900/30 navbar navbar-glass navbar-sticky">
             <div className="navbar-start">
-              <label htmlFor="sidebar-mobile-fixed" className="btn-primary btn sm:hidden">
+              <label htmlFor="sidebar-mobile-fixed" className="p-4 bg-gray-700 rounded-md btn-primary btn sm:hidden">
                 <Bars3Icon className="w-6 h-6" aria-hidden="true" />
               </label>
             </div>
@@ -83,7 +83,9 @@ export const MainLayout = () => {
               <span className="navbar-item">{curRouteItem.label}</span>
             </div>
           </div>
-          <Outlet />
+          <div className='bg-gray-900/30 h-[calc(100vh-6.6rem)] rounded-lg backdrop-blur-sm p-4'>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

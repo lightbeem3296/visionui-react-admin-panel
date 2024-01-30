@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 
+const accessTokenExpire = '10s';
+const refreshTokenExpire = '24h';
 
 exports.signin = async (req, res) => {
   const { username, password } = req.body;
@@ -17,11 +19,11 @@ exports.signin = async (req, res) => {
     });
   }
 
-  const accessToken = jwt.sign({ username: username }, 'accessSecret', {
-    expiresIn: "5m",
+  const accessToken = jwt.sign({ user_id: username }, 'accessSecret', {
+    expiresIn: accessTokenExpire,
   });
-  const refreshToken = jwt.sign({ username: username }, 'refreshSecret', {
-    expiresIn: "24h",
+  const refreshToken = jwt.sign({ user_id: username }, 'refreshSecret', {
+    expiresIn: refreshTokenExpire,
   })
 
   return res.status(200).json({ accessToken, refreshToken });
@@ -47,7 +49,7 @@ exports.refresh = (req, res) => {
   }
 
   const accessToken = jwt.sign({ username: username }, "accessSecret", {
-    expiresIn: "5m",
+    expiresIn: accessTokenExpire,
   });
 
   return res.status(200).json({ success: true, accessToken });
@@ -59,9 +61,8 @@ exports.isAuthenticated = (req, res, next) => {
     if (!token) {
       return res.status(404).json({ success: false, msg: "Token not found" });
     }
-    token = token.split(" ")[1];
-    const decoded = jwt.verify(token, "accessSecret");
-    req.username = decoded.username;
+    const accessToken = token.split(" ")[1];
+    const decoded = jwt.verify(accessToken, "accessSecret");
     next();
   } catch (error) {
     return res.status(401).json({ success: false, msg: error.message });

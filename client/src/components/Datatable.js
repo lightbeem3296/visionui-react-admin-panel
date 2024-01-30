@@ -142,7 +142,7 @@ export const Datatable = (props) => {
 
   useEffect(() => {
     fetchData();
-  }, [tableParams.pagination]);
+  }, [JSON.stringify(tableParams)]);
 
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -177,7 +177,7 @@ export const Datatable = (props) => {
         style={{ overflowX: "hidden" }}
         scroll={{
           x: "100%",
-          y: "calc(100vh - 16rem)",
+          y: "calc(100vh - 17.5rem)",
         }}
       />
     </ConfigProvider>

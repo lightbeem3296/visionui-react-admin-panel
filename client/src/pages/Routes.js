@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { SigninPage } from "./SigninPage";
-import { SignoutPage } from "./SignoutPage";
+import { SignInPage } from "./SignInPage";
+import { SignoutPage } from "./SignOutPage";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { DashboardPage } from "./DashboardPage";
 import { ItemsPage } from "./ItemsPage";
@@ -104,7 +104,7 @@ export const mainRouteItems = [
 export const MainRoutes = () => {
   return (
     <Routes>
-      <Route path='sign-in' element={<SigninPage />} />
+      <Route path='sign-in' element={<SignInPage />} />
       <Route path='' element={<MainLayout />} >
         {mainRouteItems.map((route) => (
           (route.type === itemTypeRoute || route.type === itemTypeItem)

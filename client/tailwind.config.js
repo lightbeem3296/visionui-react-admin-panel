@@ -10,5 +10,6 @@ module.exports = withMT({
   },
   plugins: [
     require("rippleui"),
+    require('@tailwindcss/forms'),
   ],
 });
