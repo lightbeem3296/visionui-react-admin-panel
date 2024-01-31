@@ -123,7 +123,7 @@ export const Datatable = ({ url, columns }) => {
 
   function fetchData() {
     setLoading(true);
-    AxiosClient.get(`${url}?${qs.stringify(tableParams)}`)
+    AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {
         setData(resp.data["results"]);
         setLoading(false);

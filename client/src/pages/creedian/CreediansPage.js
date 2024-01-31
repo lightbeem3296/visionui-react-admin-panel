@@ -38,6 +38,6 @@ export const CreediansPage = () => {
   ];
 
   return (
-    <Datatable columns={columns} url={"http://localhost:9000/admin/user_creedians"} />
+    <Datatable columns={columns} url={"/admin/creedian/creedians"} />
   );
 }

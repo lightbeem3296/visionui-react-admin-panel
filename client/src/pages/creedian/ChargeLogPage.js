@@ -86,6 +86,6 @@ export const ChargeLogPage = () => {
   ];
 
   return (
-    <Datatable columns={columns} url={"/admin/user_creedians_charge_log"} />
+    <Datatable columns={columns} url={"/admin/creedian/charge-log"} />
   );
 }

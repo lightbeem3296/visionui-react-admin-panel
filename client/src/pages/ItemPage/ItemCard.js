@@ -1,7 +1,7 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { EditItemDialog } from "./EditItemDialog";
 import { LbLabelButton } from "../../components/LabelButton";
 import { LbButton } from "../../components/Button";
+import { LbItemDialog } from "./ItemDialog";
 
 export const LbItemCard = ({ item }) => {
   return (
@@ -11,7 +11,7 @@ export const LbItemCard = ({ item }) => {
           <LbLabelButton htmlFor="modal-edit-item">
             <PencilIcon className="size-4" />
           </LbLabelButton>
-          <EditItemDialog id='modal-edit-item' />
+          <LbItemDialog id='modal-edit-item' title='Edit Item' url='/admin/item/update' />
         </div>
         <div className="popover">
           <LbLabelButton className="popover-trigger" tabIndex="0">

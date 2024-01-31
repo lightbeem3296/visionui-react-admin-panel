@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { LbItemCard } from "./ItemCard";
-import { NewItemDialog } from "./NewItemDialog";
+import { LbItemDialog } from "./ItemDialog";
 import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
 import { LbItemClassesWithAll, LbItemOrders, LbItemRaritiesWithAll, LbItemTypesWithAll } from "./def";
@@ -25,9 +25,9 @@ export const ItemsPage = () => {
         <LbLabelButton htmlFor="modal-new-item" className='w-full'>
           <PlusIcon className="size-4" />New Item
         </LbLabelButton>
-        <NewItemDialog id='modal-new-item' />
+        <LbItemDialog id='modal-new-item' title='Add New Item' url='/admin/item/add' />
 
-        <div className="text-sm divider">Filter</div>
+        <div className="text-sm divider" />
         <form
           onSubmit={onSubmitHandler}
           className="flex flex-col space-y-2"

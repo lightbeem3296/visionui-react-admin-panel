@@ -10,7 +10,7 @@ function App() {
         position="bottom-right"
         reverseOrder={false}
         toastOptions={{
-          className: 'text-md',
+          className: 'text-sm',
           style: {
             backgroundColor: '#444',
             color: '#fff',
