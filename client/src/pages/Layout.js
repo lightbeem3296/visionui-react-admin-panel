@@ -45,8 +45,8 @@ export const MainLayout = () => {
   }, [curLink]);
 
   return (
-    <div className="min-h-[100vh] w-full bg-[url('./assets/bg-main.jpg')] bg-cover bg-center bg-blend-hard-light">
-      <div className='flex flex-row size-full backdrop-blur-sm bg-black/30'>
+    <div className="h-[100vh] w-full bg-[url('./assets/bg-main.jpg')] bg-cover bg-center bg-blend-hard-light">
+      <div className='flex flex-row size-full backdrop-blur-sm bg-black/60'>
         <div className="flex-none sm:w-full sm:max-w-[12rem]">
           <input type="checkbox" id="sidebar-mobile-fixed" className="sidebar-state" />
           <label htmlFor="sidebar-mobile-fixed" className="sidebar-overlay"></label>
@@ -74,7 +74,7 @@ export const MainLayout = () => {
         </div>
         <div className="flex flex-col w-full px-4 pt-4">
           <div className="w-full h-auto">
-            <div className="sticky mb-4 rounded-lg bg-black/50 navbar navbar-glass navbar-sticky border border-gray-800">
+            <div className="sticky mb-4 border border-gray-800 rounded-lg bg-black/50 navbar navbar-glass navbar-sticky">
               <div className="navbar-start">
                 <label htmlFor="sidebar-mobile-fixed" className="p-4 bg-gray-700 rounded-md btn-primary btn sm:hidden">
                   <Bars3Icon className="w-6 h-6" aria-hidden="true" />

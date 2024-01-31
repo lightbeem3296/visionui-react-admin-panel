@@ -1,7 +1,7 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { EditItemDialog } from "./EditItemDialog";
-import { LbLabelButton } from "./LabelButton";
-import { LbButton } from "./Button";
+import { LbLabelButton } from "../../components/LabelButton";
+import { LbButton } from "../../components/Button";
 
 export const LbItemCard = ({ item }) => {
   return (

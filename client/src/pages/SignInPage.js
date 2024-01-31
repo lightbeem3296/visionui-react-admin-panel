@@ -77,7 +77,7 @@ export const SignInPage = () => {
   return (
     <div className="h-[100vh] bg-[url('./assets/bg-sign-in.jpg')] bg-cover bg-center">
       <div className="size-full backdrop-blur-sm sm:pt-[10rem]">
-        <div className="flex flex-col justify-center flex-1 h-full sm:h-[30rem] w-full sm:w-[24rem] mx-auto px-6 py-20 rounded-xl sm:px-16 backdrop-blur-md bg-gray-900/70">
+        <div className="flex flex-col justify-center flex-1 h-full sm:h-[30rem] w-full sm:w-[24rem] mx-auto px-6 py-20 rounded-xl sm:px-16 backdrop-blur-sm bg-gray-900/70">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-2xl font-bold leading-9 tracking-tight text-center text-gray-100">
               Dekaron Admin

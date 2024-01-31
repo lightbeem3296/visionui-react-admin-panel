@@ -1,11 +1,11 @@
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { LbItemCard } from "./ItemCard";
 import { NewItemDialog } from "./NewItemDialog";
-import { LbInput } from "./Input";
-import { LbSelect } from "./Select";
+import { LbInput } from "../../components/Input";
+import { LbSelect } from "../../components/Select";
 import { LbItemClassesWithAll, LbItemOrders, LbItemRaritiesWithAll, LbItemTypesWithAll } from "./def";
-import { LbButton } from "./Button";
-import { LbLabelButton } from "./LabelButton";
+import { LbButton } from "../../components/Button";
+import { LbLabelButton } from "../../components/LabelButton";
 
 export const ItemsPage = () => {
 
@@ -21,13 +21,13 @@ export const ItemsPage = () => {
 
   return (
     <div className="flex h-full space-x-4">
-      <div className="flex flex-col flex-none h-full p-4 space-y-4 overflow-auto border border-gray-800/50 rounded-lg w-[12rem]">
-        <LbLabelButton htmlFor="modal-new-item">
+      <div className="flex-none h-full p-4 overflow-auto border border-gray-800/50 rounded-lg w-[12rem]">
+        <LbLabelButton htmlFor="modal-new-item" className='w-full'>
           <PlusIcon className="size-4" />New Item
         </LbLabelButton>
         <NewItemDialog id='modal-new-item' />
 
-        <div className="divider text-sm">Filter</div>
+        <div className="text-sm divider">Filter</div>
         <form
           onSubmit={onSubmitHandler}
           className="flex flex-col space-y-2"
