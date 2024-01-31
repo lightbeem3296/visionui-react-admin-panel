@@ -3,12 +3,22 @@ import toast from "react-hot-toast";
 import { LbButton } from "../../components/Button";
 import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
-import { AxiosClient } from "../../utils/AxiosClient";
+import { API_URL, AxiosClient } from "../../utils/AxiosClient";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { isNullOrUndefined } from "../../utils/basic";
+import questionMarkImage from '../../assets/question.png';
 
 export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
-  const [itemImage, setItemImage] = useState(item ? item.image : undefined);
+  const [itemImage, setItemImage] = useState(
+    item
+      ? {
+        preview: `${API_URL}/images/items/${item.index}.png?_=${Math.random()}`,
+        data: null,
+      }
+      : {
+        preview: questionMarkImage,
+        data: null,
+      });
   const [itemName, setItemName] = useState(item ? item.name : undefined);
   const [itemPrice, setItemPrice] = useState(item ? item.price : undefined);
   const [itemClass, setItemClass] = useState(item ? item.class : undefined);
@@ -76,12 +86,22 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
       return;
     }
 
-    var formData = new FormData();
-    formData.append('file', itemImage.data);
-    console.log(formData);
-    console.log(itemImage.preview);
-
-    AxiosClient.post(addOrEdit ? '/admin/item/add' : 'admin/item/update', formData)
+    const form = new FormData();
+    form.append('file', itemImage.data);
+    form.append('details', JSON.stringify({
+      name: itemName,
+      price: itemPrice,
+      index: itemIndex,
+      limit: itemLimit,
+      type: itemType,
+      rarity: itemRarity,
+      class: itemClass,
+    }));
+    AxiosClient.post(addOrEdit ? '/admin/item/add' : 'admin/item/update', form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    })
       .then(() => {
         toast.success(addOrEdit ? 'Successfully added.' : 'Successfully updated');
         fetchItems();
@@ -103,13 +123,13 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
           </div>
           <form className="mx-auto form-group" onSubmit={onSubmitHandler}>
             <img
-              className="mx-auto border border-gray-700 size-40 rounded-xl"
+              className="mx-auto border border-gray-700 bg-gray-100/30 size-40 rounded-xl"
               alt=""
               src={itemImage.preview}
             />
             <input
               type="file"
-              accept="image/png, image/jpeg"
+              accept="image/png"
               className="mx-auto w-[6.25rem] input-file input-file-sm"
               onChange={onImageChange}
             />

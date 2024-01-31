@@ -3,6 +3,14 @@ const router = express.Router();
 const sql = require("mssql");
 const dbConfig = require("../../config/db.js");
 const { isAuthenticated } = require("../../controllers/AuthController.js");
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const consts = require('../../consts.js');
+const upload = multer({ dest: consts.uploadDir });
+
+const itemImageDir = path.join(consts.publicDir, 'images', 'items');
+
 
 var config = {
   user: dbConfig.USER,
@@ -25,7 +33,6 @@ router.post("/fetch", isAuthenticated, function (req, res) {
         items.push({
           name: 'Name',
           price: Math.trunc(Math.random() * 10000),
-          image: 'image',
           index: 'index-123123',
           limit: Math.trunc(Math.random() * 10),
           type: Math.trunc(Math.random() * 4),
@@ -40,26 +47,54 @@ router.post("/fetch", isAuthenticated, function (req, res) {
   }
 });
 
-router.post("/add", isAuthenticated, function (req, res) {
+router.post("/add", isAuthenticated, upload.single('file'), function (req, res) {
   try {
     sql.connect(config, function (err) {
       if (err) console.log(err);
-      const item = req.body;
-      console.log(item);
-      res.send('add item');
+
+      const details = JSON.parse(req.body.details);
+      if (req.file) {
+        let tmpPath = req.file.path;
+        let dstPath = path.join(itemImageDir, details.index + '.png');
+
+        fs.mkdir(itemImageDir, { recursive: true }, (err) => {
+          if (err) console.log(err);
+          fs.rename(tmpPath, dstPath, (err) => {
+            if (err) console.log(err);
+            fs.rm(tmpPath, (err) => {
+              console.log(err);
+            });
+          });
+        });
+      }
+      res.send();
     });
   } catch (err) {
     console.log(err);
   }
 });
 
-router.post("/update", isAuthenticated, function (req, res) {
+router.post("/update", isAuthenticated, upload.single('file'), function (req, res) {
   try {
     sql.connect(config, function (err) {
       if (err) console.log(err);
-      const item = req.body;
-      console.log(item);
-      res.send('update item');
+
+      const details = JSON.parse(req.body.details);
+      if (req.file) {
+        let tmpPath = req.file.path;
+        let dstPath = path.join(itemImageDir, details.index + '.png');
+
+        fs.mkdir(itemImageDir, { recursive: true }, (err) => {
+          if (err) console.log(err);
+          fs.rename(tmpPath, dstPath, (err) => {
+            if (err) console.log(err);
+            fs.rm(tmpPath, (err) => {
+              console.log(err);
+            });
+          });
+        });
+      }
+      res.send();
     });
   } catch (err) {
     console.log(err);
@@ -71,8 +106,8 @@ router.post("/delete", isAuthenticated, function (req, res) {
     sql.connect(config, function (err) {
       if (err) console.log(err);
       const itemIndex = req.body.index;
-      console.log(itemIndex);
-      res.send('delete item');
+      console.log("item.delete: " + itemIndex);
+      res.send();
     });
   } catch (err) {
     console.log(err);

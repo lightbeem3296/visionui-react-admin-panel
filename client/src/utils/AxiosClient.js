@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API = "http://localhost:9000";
+export const API_URL = "http://localhost:9000";
 
 export const AxiosClient = axios.create({
-  baseURL: API,
+  baseURL: API_URL,
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -29,7 +29,7 @@ const doRefreshToken = async () => {
   const user_id = localStorage.getItem("user_id");
   try {
     const resp = await AxiosClient
-      .post(`${API}/auth/refresh`, {
+      .post(`${API_URL}/auth/refresh`, {
         user_id: user_id,
         refreshToken: refreshToken,
       });
@@ -50,7 +50,7 @@ AxiosClient.interceptors.response.use(
 
     if (
       error.response.status === 401 &&
-      originalRequest.url === `${API}/auth/refresh`
+      originalRequest.url === `${API_URL}/auth/refresh`
     ) {
       console.log('logging out');
       localStorage.setItem("loggedIn", false);
@@ -60,6 +60,7 @@ AxiosClient.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       await doRefreshToken();
+      console.log(originalRequest);
       return AxiosClient(originalRequest);
     }
     localStorage.setItem("loggedIn", false);

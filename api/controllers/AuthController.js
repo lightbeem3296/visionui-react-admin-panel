@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 
-const accessTokenExpire = '10s';
+const accessTokenExpire = '10m';
 const refreshTokenExpire = '24h';
 
 exports.signin = async (req, res) => {

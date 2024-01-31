@@ -2,10 +2,9 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { LbButton } from "../../components/Button";
 import { LbLabelButton } from "../../components/LabelButton";
-import { AxiosClient } from "../../utils/AxiosClient";
+import { API_URL, AxiosClient } from "../../utils/AxiosClient";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
-import itemImage from '../../assets/items/item1.png';
 
 export const LbItemCard = ({ item, fetchItems }) => {
   function onDelete() {
@@ -22,10 +21,10 @@ export const LbItemCard = ({ item, fetchItems }) => {
       });
   }
 
-  const modalId = 'modal-'+item.price;
+  const modalId = 'modal-' + item.name;
 
   return (
-    <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[14rem] h-fit bg-gray-900/70 border-gray-800/50 hover:border-gray-700 lb-transition">
+    <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[13.5rem] h-fit bg-gray-900/70 border-gray-800/50 hover:border-gray-700 lb-transition">
       <div className="flex justify-end w-full space-x-1">
         <div className="popover">
           <LbLabelButton htmlFor={modalId}>
@@ -47,7 +46,7 @@ export const LbItemCard = ({ item, fetchItems }) => {
         </div>
       </div>
       <img
-        src={itemImage}
+        src={`${API_URL}/images/items/${item.index}.png?_=${Math.random()}`}
         alt="item"
         className="mx-auto mt-2 border rounded-md size-40 border-gray-800/50"
       />
