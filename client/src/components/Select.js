@@ -6,8 +6,8 @@ export const LbSelect = ({ label, options, ...rest }) => {
       <label className="text-xs form-label" >{label}</label>
       <select className="py-0 text-sm bg-gray-900 border select select-sm" {...rest}>
         <option value="none" selected disabled hidden>Select an Option</option>
-        {options.map((value, index) => (
-          <option key={value} value={index}>{value}</option>
+        {Object.entries(options).map(([k, v]) => (
+          <option key={k} value={k}>{v}</option>
         ))}
       </select>
     </div>

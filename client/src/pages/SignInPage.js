@@ -67,7 +67,7 @@ export const SignInPage = () => {
         console.log(e);
         setUsernameError(true);
         setPasswordError(true);
-        toast.error(e.response.data.error);
+        toast.error(e.message);
       })
       .finally(() => {
         setPending(false);

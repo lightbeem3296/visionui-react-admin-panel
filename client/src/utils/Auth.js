@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { AxiosClient } from "./AxiosClient";
 
 export const IsLoggedIn = () => {
@@ -15,10 +16,10 @@ export const Signout = () => {
 export const CheckSignin = (url) => {
   AxiosClient.post(`/auth/check`)
     .then(() => { })
-    .catch((error) => {
+    .catch((e) => {
       if (url === '/sign-out') {
       } else {
-        console.log(error);
+        toast.error(e.message);
         Signout();
         window.location.href = "/sign-in?url=" + encodeURIComponent(url);
       }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API = "http://localhost:9000";
 
@@ -36,7 +37,7 @@ const doRefreshToken = async () => {
       localStorage.setItem("accessToken", resp.data.accessToken);
     }
   } catch (e) {
-    console.log(e);
+    toast.error(e.message);
   }
 };
 

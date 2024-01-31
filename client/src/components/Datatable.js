@@ -4,6 +4,7 @@ import qs from 'qs';
 import { AxiosClient } from '../utils/AxiosClient';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import toast from 'react-hot-toast';
 
 export const Datatable = ({ url, columns }) => {
   const [data, setData] = useState();
@@ -125,7 +126,7 @@ export const Datatable = ({ url, columns }) => {
     setLoading(true);
     AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {
-        setData(resp.data["results"]);
+        setData(resp.data.results);
         setLoading(false);
         setTableParams({
           ...tableParams,
@@ -135,8 +136,8 @@ export const Datatable = ({ url, columns }) => {
           }
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        toast.error(e.message);
       });
   }
 
