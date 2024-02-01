@@ -1,13 +1,10 @@
-module.exports = {
-  HOST: "192.168.48.128",
-  PORT: 1433,
-  USER: "sa",
-  PASSWORD: "Password!23",
+exports.CONFIG = {
+  server: "192.168.48.128",
+  port: 1433,
+  user: "sa",
+  password: "Password!23",
+  options: {
+    encrypt: false,
+  },
   dialect: "mssql",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
 };

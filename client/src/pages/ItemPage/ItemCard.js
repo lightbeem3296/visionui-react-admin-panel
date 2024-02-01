@@ -2,19 +2,31 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { LbButton } from "../../components/Button";
 import { LbLabelButton } from "../../components/LabelButton";
-import { API_URL, AxiosClient } from "../../utils/AxiosClient";
+import { API_URL, AxiosClient } from "../../utils/axios";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
+import { handleResponse } from "../../utils/net";
+
+function LbItemCardDesc({ name, value }) {
+  return (
+    <>
+      <div className="flex justify-end">{name}:</div>
+      <div className="col-span-3 text-wrap">{value}</div>
+    </>
+  );
+}
 
 export const LbItemCard = ({ item, fetchItems }) => {
   function onDelete() {
     console.log('delete index: ' + item.index);
     AxiosClient.post('/admin/item/delete', {
-      index: item.index,
+      index: item.item_index,
     })
-      .then(() => {
-        toast.success('Successfully deleted.');
-        fetchItems();
+      .then((resp) => {
+        handleResponse(resp.data, (body) => {
+          toast.success('Successfully deleted.');
+          fetchItems();
+        });
       })
       .catch((e) => {
         toast.error(e.message);
@@ -51,13 +63,15 @@ export const LbItemCard = ({ item, fetchItems }) => {
         className="mx-auto mt-2 border rounded-md size-40 border-gray-800/50"
       />
       <div className="grid grid-cols-4 px-2 mx-auto mt-4 gap-x-2 auto-cols-min w-fit">
-        <div className="flex justify-end">Name:</div><div className="col-span-3 text-wrap">{item.name}</div>
-        <div className="flex justify-end">Price:</div><div className="col-span-3 text-wrap">{item.price}</div>
-        <div className="flex justify-end">Class:</div><div className="col-span-3 text-wrap">{LbItemClasses[item.class]}</div>
-        <div className="flex justify-end">Type:</div><div className="col-span-3 text-wrap">{LbItemTypes[item.type]}</div>
-        <div className="flex justify-end">Rarity:</div><div className="col-span-3 text-wrap">{LbItemRarities[item.rarity]}</div>
-        <div className="flex justify-end">Limit:</div><div className="col-span-3 text-wrap">{item.limit}</div>
-        <div className="flex justify-end">Index:</div><div className="col-span-3 text-wrap">{item.index}</div>
+        <LbItemCardDesc name="Name" value={item.item_name} />
+        <LbItemCardDesc name="Price" value={item.item_price} />
+        <LbItemCardDesc name="Class" value={LbItemClasses[item.item_class]} />
+        <LbItemCardDesc name="Type" value={LbItemTypes[item.item_type]} />
+        <LbItemCardDesc name="Rarity" value={LbItemRarities[item.item_rarity]} />
+        <LbItemCardDesc name="Limit" value={item.item_limit} />
+        <LbItemCardDesc name="Index" value={item.item_index} />
+        <LbItemCardDesc name="Created" value={item.create_date} />
+        <LbItemCardDesc name="Modified" value={item.modify_date} />
       </div>
     </div>
   );

@@ -1,26 +1,29 @@
 import toast from "react-hot-toast";
-import { AxiosClient } from "./AxiosClient";
+import { AxiosClient } from "./axios";
+import { handleResponse } from './net';
 
-export const IsLoggedIn = () => {
-  return localStorage.getItem('loggedIn') === "true";
+export function isLoggedIn() {
+  return localStorage.getItem('logged_in') === "true";
 }
 
-export const Signout = () => {
-  localStorage.removeItem('loggedIn');
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
+export function signout() {
+  localStorage.removeItem('logged_in');
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
   localStorage.removeItem('user_id');
   localStorage.removeItem('user_no');
 }
 
-export const CheckSignin = (url) => {
+export function checkSignin(url) {
   AxiosClient.post(`/auth/check`)
-    .then(() => { })
+    .then((resp) => {
+      handleResponse(resp);
+    })
     .catch((e) => {
       if (url === '/sign-out') {
       } else {
         toast.error(e.message);
-        Signout();
+        signout();
         window.location.href = "/sign-in?url=" + encodeURIComponent(url);
       }
     });

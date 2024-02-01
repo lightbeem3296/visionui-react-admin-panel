@@ -1,7 +1,8 @@
-import { useLocation } from "react-router-dom";
-import { AxiosClient } from "../utils/AxiosClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+import { AxiosClient } from "../utils/axios";
+import { handleResponse } from "../utils/net";
 
 /*
   This example requires some changes to your config:
@@ -50,23 +51,31 @@ export const SignInPage = () => {
 
     setUsernameError(false);
     setPasswordError(false);
-    localStorage.setItem("loggedIn", false);
+    localStorage.setItem("logged_in", false);
     setPending(true);
 
     AxiosClient.post('/auth/signin', {
       "username": username,
       "password": password,
     })
-      .then(resp => {
-        localStorage.setItem("accessToken", resp.data.accessToken);
-        localStorage.setItem("refreshToken", resp.data.refreshToken);
-        localStorage.setItem("loggedIn", true);
-        window.location.href = destUrl;
+      .then((resp) => {
+        handleResponse(resp.data,
+          (body) => {
+            localStorage.setItem("user_id", username);
+            localStorage.setItem("access_token", body.access_token);
+            localStorage.setItem("refresh_token", body.refresh_token);
+            localStorage.setItem("logged_in", true);
+
+            window.location.href = destUrl;
+          },
+          (msg) => {
+            setUsernameError(true);
+            setPasswordError(true);
+            toast.error(msg);
+          });
       })
       .catch(e => {
         console.log(e);
-        setUsernameError(true);
-        setPasswordError(true);
         toast.error(e.message);
       })
       .finally(() => {

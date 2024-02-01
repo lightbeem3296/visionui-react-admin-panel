@@ -1,70 +1,73 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
+const { onError, onSuccess } = require('../utils/resp');
+const { isInvalid } = require('../utils/basic');
 
-const accessTokenExpire = '10m';
+const accessTokenExpire = '10s';
 const refreshTokenExpire = '24h';
+const accessSecret = 'access secret';
+const refreshSecret = 'refresh secret';
 
-exports.signin = async (req, res) => {
+exports.signin = async (req, resp) => {
   const { username, password } = req.body;
 
   const pwdHash = md5(password);
 
-  console.log(password);
-  console.log(pwdHash);
-
   if (username != "admin" || password != "1234") {
-    return res.status(400).json({
-      success: false,
-      error: "Username or password is invalid",
-    });
+    return onError(resp, 'Username or password is invalid');
   }
 
-  const accessToken = jwt.sign({ user_id: username }, 'accessSecret', {
+  const accessToken = jwt.sign({ user_id: username }, accessSecret, {
     expiresIn: accessTokenExpire,
   });
-  const refreshToken = jwt.sign({ user_id: username }, 'refreshSecret', {
+  const refreshToken = jwt.sign({ user_id: username }, refreshSecret, {
     expiresIn: refreshTokenExpire,
   })
 
-  return res.status(200).json({ accessToken, refreshToken });
+  return onSuccess(resp, {
+    access_token: accessToken,
+    refresh_token: refreshToken,
+  });
 };
 
-verifyRefresh = (username, token) => {
+verifyRefresh = (user_id, token) => {
   try {
-    const decoded = jwt.verify(token, "refreshSecret");
-    return decoded.username === username;
+    const decoded = jwt.verify(token, refreshSecret);
+    return decoded.username === user_id;
   } catch (error) {
     console.error(error);
     return false;
   }
 };
 
-exports.refresh = (req, res) => {
-  const { username, refreshToken } = req.body;
-  const isValid = verifyRefresh(username, refreshToken);
-  if (!isValid) {
-    return res
-      .status(401)
-      .json({ success: false, error: "Invalid token, try login again" });
+exports.refresh = (req, resp) => {
+  const { user_id, refresh_token } = req.body;
+  if (verifyRefresh(user_id, refresh_token)) {
+    return onError(resp, 'Invalid token');
   }
 
-  const accessToken = jwt.sign({ username: username }, "accessSecret", {
+  const accessToken = jwt.sign({ username: user_id }, "accessSecret", {
     expiresIn: accessTokenExpire,
   });
 
-  return res.status(200).json({ success: true, accessToken });
+  return resp.status(200).json({ success: true, accessToken });
 }
 
-exports.isAuthenticated = (req, res, next) => {
+exports.isAuthenticated = (req, resp, next) => {
   try {
-    let token = req.headers["authorization"];
-    if (!token) {
-      return res.status(404).json({ success: false, msg: "Token not found" });
+    let authorization = req.headers["authorization"];
+    if (isInvalid(authorization)) {
+      return onError(resp, 'request header error');
     }
-    const accessToken = token.split(" ")[1];
-    const decoded = jwt.verify(accessToken, "accessSecret");
-    next();
-  } catch (error) {
-    return res.status(401).json({ success: false, msg: error.message });
+    const userId = authorization.split("||")[1];
+    const accessToken = authorization.split("||")[2];
+    const decoded = jwt.verify(accessToken, accessSecret);
+    if (decoded.user_id === userId) {
+      return next();
+    } else {
+      return onError(resp, 'mismatch user_id & token');
+    }
+  } catch (err) {
+    return onError(resp, 'unhandled error', err);
   }
 };

@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import { Signout } from "../utils/Auth";
+import { signout } from "../utils/auth";
 
 export const SignoutPage = () => {
-  Signout();
+  signout();
   return (
     <Navigate to='/sign-in'/>
   );

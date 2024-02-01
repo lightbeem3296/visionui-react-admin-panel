@@ -3,10 +3,11 @@ import toast from "react-hot-toast";
 import { LbButton } from "../../components/Button";
 import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
-import { API_URL, AxiosClient } from "../../utils/AxiosClient";
+import { API_URL, AxiosClient } from "../../utils/axios";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
-import { isNullOrUndefined } from "../../utils/basic";
+import { isInvalid } from "../../utils/basic";
 import questionMarkImage from '../../assets/question.png';
+import { handleResponse } from "../../utils/net";
 
 export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   const [itemImage, setItemImage] = useState(
@@ -69,19 +70,19 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   function onSubmitHandler(e) {
     e.preventDefault();
 
-    if (isNullOrUndefined(itemImage)) {
+    if (isInvalid(itemImage)) {
       toast.error('Image is required.');
       return;
     }
-    if (isNullOrUndefined(itemClass)) {
+    if (isInvalid(itemClass)) {
       toast.error('Item class is required.');
       return;
     }
-    if (isNullOrUndefined(itemRarity)) {
+    if (isInvalid(itemRarity)) {
       toast.error('Item rarity is required.');
       return;
     }
-    if (isNullOrUndefined(itemType)) {
+    if (isInvalid(itemType)) {
       toast.error('Item type is required.');
       return;
     }
@@ -89,22 +90,24 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     const form = new FormData();
     form.append('file', itemImage.data);
     form.append('details', JSON.stringify({
-      name: itemName,
-      price: itemPrice,
-      index: itemIndex,
-      limit: itemLimit,
-      type: itemType,
-      rarity: itemRarity,
-      class: itemClass,
+      item_name: itemName,
+      item_price: itemPrice,
+      item_index: itemIndex,
+      item_limit: itemLimit,
+      item_type: itemType,
+      item_rarity: itemRarity,
+      item_class: itemClass,
     }));
     AxiosClient.post(addOrEdit ? '/admin/item/add' : 'admin/item/update', form, {
       headers: {
         "Content-Type": "multipart/form-data",
       }
     })
-      .then(() => {
-        toast.success(addOrEdit ? 'Successfully added.' : 'Successfully updated');
-        fetchItems();
+      .then((resp) => {
+        handleResponse(resp.data, () => {
+          toast.success(addOrEdit ? 'Successfully added.' : 'Successfully updated');
+          fetchItems();
+        })
       })
       .catch((e) => {
         toast.error(e.message);
@@ -141,7 +144,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
               <LbSelect label="Rarity" options={LbItemRarities} value={itemRarity} onChange={onRarityChange} />
               <LbInput label="Limit" type='number' min='1' placeholder="Input item limit here" required value={itemLimit} onChange={onLimitChange} />
               <LbSelect label="Item Type" options={LbItemTypes} value={itemType} onChange={onTypeChange} />
-              <LbInput label="Index" placeholder="Input item index here" required value={itemIndex} onChange={onIndexChange} />
+              <LbInput label="Index" type='number' placeholder="Input item index here" required value={itemIndex} onChange={onIndexChange} />
             </div>
             <div className="pt-5 form-field">
               <div className="justify-center form-control">

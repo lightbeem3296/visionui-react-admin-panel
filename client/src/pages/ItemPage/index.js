@@ -4,11 +4,12 @@ import { LbButton } from "../../components/Button";
 import { LbInput } from "../../components/Input";
 import { LbLabelButton } from "../../components/LabelButton";
 import { LbSelect } from "../../components/Select";
-import { AxiosClient } from "../../utils/AxiosClient";
+import { AxiosClient } from "../../utils/axios";
 import { LbItemCard } from "./ItemCard";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClassesWithAll, LbItemOrders, LbItemRaritiesWithAll, LbItemTypesWithAll } from "./def";
 import toast from "react-hot-toast";
+import { handleResponse } from "../../utils/net";
 
 export const ItemsPage = () => {
   const [items, setItems] = useState([]);
@@ -50,7 +51,9 @@ export const ItemsPage = () => {
       orderBy: orderByFilter,
     })
       .then((resp) => {
-        setItems(resp.data);
+        handleResponse(resp.data, (body) => {
+          setItems(body);
+        });
       })
       .catch((e) => {
         toast.error(e.message);

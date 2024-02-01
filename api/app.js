@@ -22,7 +22,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(consts.publicDir));
+app.use(express.static(consts.PUBLIC_DIR));
 
 app.use('/auth', authRouter);
 app.use("/admin", adminRouter);

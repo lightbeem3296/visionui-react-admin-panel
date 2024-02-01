@@ -1,6 +1,6 @@
-import { CheckSignin } from "../utils/Auth";
+import { checkSignin } from "../utils/auth";
 
 export const ProtectedRoute = ({ children }) => {
-  CheckSignin(window.location.pathname);
+  checkSignin(window.location.pathname);
   return children;
 };
