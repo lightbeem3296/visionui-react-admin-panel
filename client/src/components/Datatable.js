@@ -47,6 +47,7 @@ export const Datatable = ({ url, columns }) => {
             marginBottom: 8,
             display: 'block',
           }}
+          className='h-8 py-0 text-sm border-0 input ring-1'
         />
         <Space>
           <Button
@@ -139,8 +140,8 @@ export const Datatable = ({ url, columns }) => {
           });
         });
       })
-      .catch((e) => {
-        toast.error(e.message);
+      .catch((err) => {
+        toast.error(err.message);
       });
   }
 

@@ -110,7 +110,6 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
               getutcdate())`;
 
             // insert into table
-            const sqlReq = new sql.Request();
             sqlReq.query(query, (err, res) => {
               if (isValid(err)) return onError(resp, 'db query error', err);
               if (isInvalid(req.file)) return onError(resp, 'file upload error');

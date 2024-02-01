@@ -61,8 +61,8 @@ export const ItemsPage = () => {
           setItems(body);
         });
       })
-      .catch((e) => {
-        toast.error(e.message);
+      .catch((err) => {
+        toast.error(err.message);
       });
   }
 

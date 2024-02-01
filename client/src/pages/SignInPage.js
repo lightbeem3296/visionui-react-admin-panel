@@ -73,9 +73,9 @@ export const SignInPage = () => {
             toast.error(msg);
           });
       })
-      .catch(e => {
-        console.log(e);
-        toast.error(e.message);
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
       })
       .finally(() => {
         setPending(false);

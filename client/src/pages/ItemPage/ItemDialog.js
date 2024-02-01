@@ -34,8 +34,8 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
         preview: URL.createObjectURL(e.target.files[0]),
         data: e.target.files[0],
       });
-    } catch (e) {
-      toast.error(e.message);
+    } catch (err) {
+      toast.error(err.message);
     }
   }
 
@@ -110,8 +110,8 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
           fetchItems();
         })
       })
-      .catch((e) => {
-        toast.error(e.message);
+      .catch((err) => {
+        toast.error(err.message);
       });
   }
 

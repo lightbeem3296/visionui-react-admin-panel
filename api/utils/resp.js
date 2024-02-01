@@ -1,4 +1,4 @@
-exports.onError = (resp, msg, err = null) => {
+exports.onError = (resp, msg, err) => {
   console.log(err);
   console.log(msg);
   return resp.json({

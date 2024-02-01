@@ -47,7 +47,8 @@ export const LbItemOrders = {
   'item_price': 'Price',
   'item_class': 'Class',
   'item_rarity': 'Rarity',
-  'item_type': 'Item Type',
+  'item_type': 'Type',
+  'item_index': 'Index',
 };
 
 export const LbOrderDirection = {
