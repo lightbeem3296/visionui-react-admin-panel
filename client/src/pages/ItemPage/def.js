@@ -43,9 +43,14 @@ export const LbItemTypesWithAll = {
 };
 
 export const LbItemOrders = {
-  'name': 'Name',
-  'price': 'Price',
-  'class': 'Class',
-  'rarity': 'Rarity',
-  'type': 'Item Type',
+  'item_name': 'Name',
+  'item_price': 'Price',
+  'item_class': 'Class',
+  'item_rarity': 'Rarity',
+  'item_type': 'Item Type',
 };
+
+export const LbOrderDirection = {
+  'ASC': 'Ascending',
+  'DESC': 'Descending',
+}

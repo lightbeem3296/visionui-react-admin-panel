@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { AxiosClient } from "../utils/axios";
 import { handleResponse } from "../utils/net";
+import { signout } from "../utils/auth";
 
 /*
   This example requires some changes to your config:
@@ -47,11 +48,9 @@ export const SignInPage = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    console.log('submit');
-
     setUsernameError(false);
     setPasswordError(false);
-    localStorage.setItem("logged_in", false);
+    signout();
     setPending(true);
 
     AxiosClient.post('/auth/signin', {
@@ -59,7 +58,7 @@ export const SignInPage = () => {
       "password": password,
     })
       .then((resp) => {
-        handleResponse(resp.data,
+        handleResponse(resp,
           (body) => {
             localStorage.setItem("user_id", username);
             localStorage.setItem("access_token", body.access_token);

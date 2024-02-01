@@ -1,6 +1,8 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { isValid } from "./basic";
+import { isInvalid, isValid } from "./basic";
+import { handleResponse } from "./net";
+import { signout } from "./auth";
 
 export const API_URL = "http://localhost:9000";
 
@@ -8,7 +10,7 @@ export const AxiosClient = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json;charset=UTF-8",
-    "Accept": "application/json,",
+    "Accept": "application/json",
   },
 });
 
@@ -28,14 +30,19 @@ AxiosClient.interceptors.request.use(
 );
 
 const doRefreshToken = async () => {
-  const refreshToken = localStorage.getItem("reresh_token");
+  const refreshToken = localStorage.getItem("refresh_token");
+  const userId = localStorage.getItem('user_id');
   try {
     const resp = await AxiosClient
       .post(`${API_URL}/auth/refresh`, {
+        user_id: userId,
         refresh_token: refreshToken,
       });
     if (resp.status === 200) {
-      localStorage.setItem("access_token", resp.data.accessToken);
+      handleResponse(resp,
+        (body) => {
+          localStorage.setItem("access_token", body.access_token);
+        });
     }
   } catch (err) {
     toast.error(err.message);
@@ -43,28 +50,31 @@ const doRefreshToken = async () => {
 };
 
 AxiosClient.interceptors.response.use(
-  (response) => {
-    return response;
+  async (resp) => {
+    return handleResponse(resp,
+      () => {
+        return resp;
+      },
+      async (msg) => {
+        const orgReq = resp.config;
+
+        if (orgReq.url === `${API_URL}/auth/refresh`) {
+          signout();
+          window.location.href = "/sign-in?url=" + encodeURIComponent(window.location.pathname);
+
+          return Promise.reject({ message: 'token refresh failed' });
+        }
+
+        if (isInvalid(orgReq._retry) && (!orgReq._retry)) {
+          orgReq._retry = true;
+          await doRefreshToken();
+          return AxiosClient(orgReq);
+        }
+
+        return Promise.reject({ message: msg });
+      });
   },
-  async (err) => {
-    const orgReq = err.config;
-
-    if (
-      err.response.status === 401 &&
-      orgReq.url === `${API_URL}/auth/refresh`
-    ) {
-      console.log('logging out');
-      localStorage.setItem("logged_in", false);
-      return Promise.reject(err);
-    }
-
-    if (err.response.status === 401 && !orgReq._retry) {
-      orgReq._retry = true;
-      await doRefreshToken();
-      console.log(orgReq);
-      return AxiosClient(orgReq);
-    }
-    localStorage.setItem("logged_in", false);
-    return Promise.reject(err);
+  (err) => {
+    toast.error(err.message);
   }
 );

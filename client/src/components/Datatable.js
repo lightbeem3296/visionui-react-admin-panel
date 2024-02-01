@@ -127,7 +127,7 @@ export const Datatable = ({ url, columns }) => {
     setLoading(true);
     AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {
-        handleResponse(resp.data, (body) => {
+        handleResponse(resp, (body) => {
           setData(body.rows);
           setLoading(false);
           setTableParams({

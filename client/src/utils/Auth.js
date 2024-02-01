@@ -11,20 +11,22 @@ export function signout() {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('user_id');
-  localStorage.removeItem('user_no');
 }
 
 export function checkSignin(url) {
   AxiosClient.post(`/auth/check`)
     .then((resp) => {
-      handleResponse(resp);
+      handleResponse(resp,
+        null,
+        (msg) => {
+          console.log(msg);
+          signout();
+          window.location.href = "/sign-in?url=" + encodeURIComponent(url);
+        });
     })
-    .catch((e) => {
-      if (url === '/sign-out') {
-      } else {
-        toast.error(e.message);
-        signout();
-        window.location.href = "/sign-in?url=" + encodeURIComponent(url);
-      }
+    .catch((err) => {
+      toast.error(err.message);
+      signout();
+      window.location.href = "/sign-in?url=" + encodeURIComponent(url);
     });
 }

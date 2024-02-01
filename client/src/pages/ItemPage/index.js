@@ -7,7 +7,7 @@ import { LbSelect } from "../../components/Select";
 import { AxiosClient } from "../../utils/axios";
 import { LbItemCard } from "./ItemCard";
 import { LbItemDialog } from "./ItemDialog";
-import { LbItemClassesWithAll, LbItemOrders, LbItemRaritiesWithAll, LbItemTypesWithAll } from "./def";
+import { LbItemClassesWithAll, LbItemOrders, LbItemRaritiesWithAll, LbItemTypesWithAll, LbOrderDirection } from "./def";
 import toast from "react-hot-toast";
 import { handleResponse } from "../../utils/net";
 
@@ -19,6 +19,7 @@ export const ItemsPage = () => {
   const [rarityFilter, setRarityFilter] = useState();
   const [typeFilter, setTypeFilter] = useState();
   const [orderByFilter, setOrderByFilter] = useState();
+  const [orderDirectionFilter, setOrderDirectionFilter] = useState();
 
   function onNameFilterChange(e) {
     setNameFilter(e.target.value);
@@ -38,20 +39,25 @@ export const ItemsPage = () => {
 
   function onOrderByFilterChange(e) {
     setOrderByFilter(e.target.value);
+
+  }
+
+  function onOrderDirectionChange(e) {
+    setOrderDirectionFilter(e.target.value);
   }
 
   function fetchItems() {
-    console.log('fetch items');
     setItems([]);
     AxiosClient.post(`/admin/item/fetch`, {
-      name: nameFilter,
-      class: classFilter,
-      rarity: rarityFilter,
-      type: typeFilter,
-      orderBy: orderByFilter,
+      item_name: nameFilter || '',
+      item_class: classFilter * 1,
+      item_rarity: rarityFilter * 1,
+      item_type: typeFilter * 1,
+      order_by: orderByFilter,
+      order_dir: orderDirectionFilter,
     })
       .then((resp) => {
-        handleResponse(resp.data, (body) => {
+        handleResponse(resp, (body) => {
           setItems(body);
         });
       })
@@ -88,6 +94,7 @@ export const ItemsPage = () => {
           <LbSelect label="Rarity" options={LbItemRaritiesWithAll} onChange={onRarityFilterChange} />
           <LbSelect label="Item Type" options={LbItemTypesWithAll} onChange={onTypeFilterChange} />
           <LbSelect label="Order By" options={LbItemOrders} onChange={onOrderByFilterChange} />
+          <LbSelect label="Order Direction" options={LbOrderDirection} onChange={onOrderDirectionChange} />
         </form>
       </div>
       <div className="size-full">

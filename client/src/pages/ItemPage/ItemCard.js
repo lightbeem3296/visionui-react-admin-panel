@@ -6,24 +6,24 @@ import { API_URL, AxiosClient } from "../../utils/axios";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { handleResponse } from "../../utils/net";
+import { utcToLocal } from "../../utils/basic";
 
 function LbItemCardDesc({ name, value }) {
   return (
     <>
-      <div className="flex justify-end">{name}:</div>
-      <div className="col-span-3 text-wrap">{value}</div>
+      <div className="flex justify-end col-span-3">{name}:</div>
+      <div className="col-span-7 text-wrap">{value}</div>
     </>
   );
 }
 
 export const LbItemCard = ({ item, fetchItems }) => {
   function onDelete() {
-    console.log('delete index: ' + item.index);
     AxiosClient.post('/admin/item/delete', {
-      index: item.item_index,
+      item_index: item.item_index,
     })
       .then((resp) => {
-        handleResponse(resp.data, (body) => {
+        handleResponse(resp, () => {
           toast.success('Successfully deleted.');
           fetchItems();
         });
@@ -33,10 +33,10 @@ export const LbItemCard = ({ item, fetchItems }) => {
       });
   }
 
-  const modalId = 'modal-' + item.name;
+  const modalId = 'modal-' + item.item_name;
 
   return (
-    <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[13.5rem] h-fit bg-gray-900/70 border-gray-800/50 hover:border-gray-700 lb-transition">
+    <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[16rem] h-fit bg-gray-900/30 border-gray-800/50 hover:border-gray-700 lb-transition">
       <div className="flex justify-end w-full space-x-1">
         <div className="popover">
           <LbLabelButton htmlFor={modalId}>
@@ -58,11 +58,11 @@ export const LbItemCard = ({ item, fetchItems }) => {
         </div>
       </div>
       <img
-        src={`${API_URL}/images/items/${item.index}.png?_=${Math.random()}`}
+        src={`${API_URL}/images/items/${item.item_index}.png?_=${Math.random()}`}
         alt="item"
         className="mx-auto mt-2 border rounded-md size-40 border-gray-800/50"
       />
-      <div className="grid grid-cols-4 px-2 mx-auto mt-4 gap-x-2 auto-cols-min w-fit">
+      <div className="grid grid-cols-10 px-2 mx-auto mt-4 gap-x-2 auto-cols-min w-fit">
         <LbItemCardDesc name="Name" value={item.item_name} />
         <LbItemCardDesc name="Price" value={item.item_price} />
         <LbItemCardDesc name="Class" value={LbItemClasses[item.item_class]} />
@@ -70,8 +70,8 @@ export const LbItemCard = ({ item, fetchItems }) => {
         <LbItemCardDesc name="Rarity" value={LbItemRarities[item.item_rarity]} />
         <LbItemCardDesc name="Limit" value={item.item_limit} />
         <LbItemCardDesc name="Index" value={item.item_index} />
-        <LbItemCardDesc name="Created" value={item.create_date} />
-        <LbItemCardDesc name="Modified" value={item.modify_date} />
+        <LbItemCardDesc name="Created" value={utcToLocal(item.create_date)} />
+        <LbItemCardDesc name="Modified" value={utcToLocal(item.modify_date)} />
       </div>
     </div>
   );

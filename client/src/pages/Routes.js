@@ -98,6 +98,7 @@ export const mainRouteItems = [
     'Sign Out',
     'sign-out',
     SignoutPage,
+    false,
   ),
 ];
 

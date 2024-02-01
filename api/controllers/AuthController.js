@@ -3,7 +3,7 @@ const md5 = require('md5');
 const { onError, onSuccess } = require('../utils/resp');
 const { isInvalid } = require('../utils/basic');
 
-const accessTokenExpire = '10s';
+const accessTokenExpire = '60m';
 const refreshTokenExpire = '24h';
 const accessSecret = 'access secret';
 const refreshSecret = 'refresh secret';
@@ -33,7 +33,7 @@ exports.signin = async (req, resp) => {
 verifyRefresh = (user_id, token) => {
   try {
     const decoded = jwt.verify(token, refreshSecret);
-    return decoded.username === user_id;
+    return decoded.user_id === user_id;
   } catch (error) {
     console.error(error);
     return false;
@@ -42,15 +42,15 @@ verifyRefresh = (user_id, token) => {
 
 exports.refresh = (req, resp) => {
   const { user_id, refresh_token } = req.body;
-  if (verifyRefresh(user_id, refresh_token)) {
-    return onError(resp, 'Invalid token');
+  if (!verifyRefresh(user_id, refresh_token)) {
+    return onError(resp, 'invalid refresh token');
   }
 
-  const accessToken = jwt.sign({ username: user_id }, "accessSecret", {
+  const accessToken = jwt.sign({ user_id: user_id }, accessSecret, {
     expiresIn: accessTokenExpire,
   });
 
-  return resp.status(200).json({ success: true, accessToken });
+  return onSuccess(resp, {access_token: accessToken});
 }
 
 exports.isAuthenticated = (req, resp, next) => {

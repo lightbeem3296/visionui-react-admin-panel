@@ -5,7 +5,7 @@ import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
 import { API_URL, AxiosClient } from "../../utils/axios";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
-import { isInvalid } from "../../utils/basic";
+import { isInvalid, isValid } from "../../utils/basic";
 import questionMarkImage from '../../assets/question.png';
 import { handleResponse } from "../../utils/net";
 
@@ -13,20 +13,20 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   const [itemImage, setItemImage] = useState(
     item
       ? {
-        preview: `${API_URL}/images/items/${item.index}.png?_=${Math.random()}`,
+        preview: `${API_URL}/images/items/${item.item_index}.png?_=${Math.random()}`,
         data: null,
       }
       : {
         preview: questionMarkImage,
         data: null,
       });
-  const [itemName, setItemName] = useState(item ? item.name : undefined);
-  const [itemPrice, setItemPrice] = useState(item ? item.price : undefined);
-  const [itemClass, setItemClass] = useState(item ? item.class : undefined);
-  const [itemRarity, setItemRarity] = useState(item ? item.rarity : undefined);
-  const [itemType, setItemType] = useState(item ? item.type : undefined);
-  const [itemLimit, setItemLimit] = useState(item ? item.limit : undefined);
-  const [itemIndex, setItemIndex] = useState(item ? item.index : undefined);
+  const [itemName, setItemName] = useState(item ? item.item_name : undefined);
+  const [itemPrice, setItemPrice] = useState(item ? item.item_price : undefined);
+  const [itemClass, setItemClass] = useState(item ? item.item_class : undefined);
+  const [itemRarity, setItemRarity] = useState(item ? item.item_rarity : undefined);
+  const [itemType, setItemType] = useState(item ? item.item_type : undefined);
+  const [itemLimit, setItemLimit] = useState(item ? item.item_limit : undefined);
+  const [itemIndex, setItemIndex] = useState(item ? item.item_index : undefined);
 
   function onImageChange(e) {
     try {
@@ -70,7 +70,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   function onSubmitHandler(e) {
     e.preventDefault();
 
-    if (isInvalid(itemImage)) {
+    if (isInvalid(itemImage.data) && addOrEdit) {
       toast.error('Image is required.');
       return;
     }
@@ -90,6 +90,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     const form = new FormData();
     form.append('file', itemImage.data);
     form.append('details', JSON.stringify({
+      old_index: isValid(item) ? item.item_index : 0,
       item_name: itemName,
       item_price: itemPrice,
       item_index: itemIndex,
@@ -104,7 +105,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
       }
     })
       .then((resp) => {
-        handleResponse(resp.data, () => {
+        handleResponse(resp, () => {
           toast.success(addOrEdit ? 'Successfully added.' : 'Successfully updated');
           fetchItems();
         })
