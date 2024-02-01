@@ -151,7 +151,7 @@ router.post("/update", isAuthenticated, upload.single('file'), function (req, re
 
           const totalCount = result.recordset[0][''];
 
-          if (totalCount === 0) {
+          if (details.item_index === details.old_index || totalCount === 0) {
             const query = `UPDATE ${ITEM_SHOP_TABLE}
               SET
                 [item_index]=${details.item_index},
