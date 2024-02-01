@@ -40,8 +40,11 @@ const doRefreshToken = async () => {
       });
     if (resp.status === 200) {
       handleResponse(resp,
-        (body) => {
-          localStorage.setItem("access_token", body.access_token);
+        (data) => {
+          localStorage.setItem("access_token", data.access_token);
+        },
+        (msg) => {
+          toast.error(msg);
         });
     }
   } catch (err) {
@@ -60,7 +63,7 @@ AxiosClient.interceptors.response.use(
 
         if (orgReq.url === `${API_URL}/auth/refresh`) {
           signout();
-          window.location.href = "/sign-in?url=" + encodeURIComponent(window.location.pathname);
+          window.location.href = "/signin?url=" + encodeURIComponent(window.location.pathname);
 
           return Promise.reject({ message: 'token refresh failed' });
         }

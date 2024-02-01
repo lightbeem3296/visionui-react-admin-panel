@@ -59,10 +59,10 @@ export const SignInPage = () => {
     })
       .then((resp) => {
         handleResponse(resp,
-          (body) => {
+          (data) => {
             localStorage.setItem("user_id", username);
-            localStorage.setItem("access_token", body.access_token);
-            localStorage.setItem("refresh_token", body.refresh_token);
+            localStorage.setItem("access_token", data.access_token);
+            localStorage.setItem("refresh_token", data.refresh_token);
             localStorage.setItem("logged_in", true);
 
             window.location.href = destUrl;
@@ -83,7 +83,7 @@ export const SignInPage = () => {
   }
 
   return (
-    <div className="h-[100vh] bg-[url('./assets/bg-sign-in.jpg')] bg-cover bg-center">
+    <div className="h-[100vh] bg-[url('./assets/bg-signin.jpg')] bg-cover bg-center">
       <div className="size-full backdrop-blur-sm sm:pt-[10rem]">
         <div className="flex flex-col justify-center flex-1 h-full sm:h-[30rem] w-full sm:w-[24rem] mx-auto px-6 py-20 rounded-xl sm:px-16 backdrop-blur-sm bg-gray-900/70">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

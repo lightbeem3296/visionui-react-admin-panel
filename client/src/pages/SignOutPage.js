@@ -4,6 +4,6 @@ import { signout } from "../utils/auth";
 export const SignoutPage = () => {
   signout();
   return (
-    <Navigate to='/sign-in'/>
+    <Navigate to='/signin'/>
   );
 }

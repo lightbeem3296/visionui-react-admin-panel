@@ -7,9 +7,9 @@ exports.onError = (resp, msg, err) => {
   });
 }
 
-exports.onSuccess = (resp, body) => {
+exports.onSuccess = (resp, data) => {
   return resp.json({
     ok: true,
-    body: body,
+    data: data,
   });
 }

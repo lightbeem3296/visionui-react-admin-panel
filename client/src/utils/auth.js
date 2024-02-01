@@ -21,12 +21,12 @@ export const checkSignin = (url) => {
         (msg) => {
           console.log(msg);
           signout();
-          window.location.href = "/sign-in?url=" + encodeURIComponent(url);
+          window.location.href = "/signin?url=" + encodeURIComponent(url);
         });
     })
     .catch((err) => {
       toast.error(err.message);
       signout();
-      window.location.href = "/sign-in?url=" + encodeURIComponent(url);
+      window.location.href = "/signin?url=" + encodeURIComponent(url);
     });
 }

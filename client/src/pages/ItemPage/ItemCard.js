@@ -23,10 +23,14 @@ export const LbItemCard = ({ item, fetchItems }) => {
       item_index: item.item_index,
     })
       .then((resp) => {
-        handleResponse(resp, () => {
-          toast.success('Successfully deleted.');
-          fetchItems();
-        });
+        handleResponse(resp,
+          () => {
+            toast.success('Successfully deleted.');
+            fetchItems();
+          },
+          (msg) => {
+            toast.error(msg);
+          });
       })
       .catch((err) => {
         toast.error(err.message);

@@ -105,10 +105,14 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
       }
     })
       .then((resp) => {
-        handleResponse(resp, () => {
-          toast.success(addOrEdit ? 'Successfully added.' : 'Successfully updated');
-          fetchItems();
-        })
+        handleResponse(resp,
+          () => {
+            toast.success(addOrEdit ? 'Successfully added' : 'Successfully updated');
+            fetchItems();
+          },
+          (msg) => {
+            toast.error(msg);
+          })
       })
       .catch((err) => {
         toast.error(err.message);

@@ -57,9 +57,13 @@ export const ItemsPage = () => {
       order_dir: orderDirectionFilter,
     })
       .then((resp) => {
-        handleResponse(resp, (body) => {
-          setItems(body);
-        });
+        handleResponse(resp,
+          (data) => {
+            setItems(data);
+          },
+          (msg) => {
+            toast.error(msg);
+          });
       })
       .catch((err) => {
         toast.error(err.message);

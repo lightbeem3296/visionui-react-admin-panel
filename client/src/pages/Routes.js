@@ -96,7 +96,7 @@ export const mainRouteItems = [
   genRouteItem(
     itemTypeItem,
     'Sign Out',
-    'sign-out',
+    'signout',
     SignoutPage,
     false,
   ),
@@ -105,7 +105,7 @@ export const mainRouteItems = [
 export const MainRoutes = () => {
   return (
     <Routes>
-      <Route path='sign-in' element={<SignInPage />} />
+      <Route path='signin' element={<SignInPage />} />
       <Route path='' element={<MainLayout />} >
         {mainRouteItems.map((route) => (
           (route.type === itemTypeRoute || route.type === itemTypeItem)

@@ -128,17 +128,21 @@ export const Datatable = ({ url, columns }) => {
     setLoading(true);
     AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {
-        handleResponse(resp, (body) => {
-          setData(body.rows);
-          setLoading(false);
-          setTableParams({
-            ...tableParams,
-            pagination: {
-              ...tableParams.pagination,
-              total: body.details.total,
-            }
+        handleResponse(resp,
+          (data) => {
+            setData(data.rows);
+            setLoading(false);
+            setTableParams({
+              ...tableParams,
+              pagination: {
+                ...tableParams.pagination,
+                total: data.details.total,
+              }
+            });
+          },
+          (msg) => {
+            toast.error(msg);
           });
-        });
       })
       .catch((err) => {
         toast.error(err.message);

@@ -5,7 +5,7 @@ export const handleResponse = (axiosResponce, okCallback, errCallback) => {
   let data = axiosResponce.data;
   if (data.ok === true) {
     if (isValid(okCallback)) {
-      return okCallback(data.body);
+      return okCallback(data.data);
     }
   } else if (data.ok === false) {
     if (isValid(errCallback)) {
