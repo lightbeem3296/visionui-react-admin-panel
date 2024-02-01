@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Input, Button, Space, Table, theme, ConfigProvider } from 'antd';
-import qs from 'qs';
-import { AxiosClient } from '../utils/axios';
 import { SearchOutlined } from '@ant-design/icons';
+import { Button, ConfigProvider, Input, Space, Table, theme } from 'antd';
+import qs from 'qs';
+import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import toast from 'react-hot-toast';
+import { AxiosClient } from '../utils/axios';
 import { handleResponse } from '../utils/net';
 
 export const Datatable = ({ url, columns }) => {
@@ -124,7 +124,7 @@ export const Datatable = ({ url, columns }) => {
       ),
   });
 
-  function fetchData() {
+  const fetchData = () => {
     setLoading(true);
     AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
       .then((resp) => {

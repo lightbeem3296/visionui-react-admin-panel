@@ -8,9 +8,9 @@ const { onError, onSuccess } = require('../../utils/resp.js');
 
 const CREEDIAN_DB_NAME = '[CREEDIAN]';
 
-router.post("/creedians", isAuthenticated, function (req, resp) {
+router.post("/creedians", isAuthenticated, (req, resp) => {
   try {
-    sql.connect(dbConfig.CONFIG, function (err) {
+    sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
 
       var query = ``;
@@ -22,7 +22,7 @@ router.post("/creedians", isAuthenticated, function (req, resp) {
       }
 
       const sqlReq = new sql.Request();
-      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians] ${query}`, function (err, result) {
+      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians] ${query}`, (err, result) => {
         if (isValid(err)) return onError(resp, 'db query error', err);
 
         const totalCount = result.recordset[0][''];
@@ -43,7 +43,7 @@ router.post("/creedians", isAuthenticated, function (req, resp) {
         const querySize = pagination.pageSize;
         query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians] ${query}`, function (err, result) {
+        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians] ${query}`, (err, result) => {
           if (isValid(err)) return onError(req, 'db query error', err);
 
           const rows = result.recordset.map((item, index) => {
@@ -67,9 +67,9 @@ router.post("/creedians", isAuthenticated, function (req, resp) {
   }
 });
 
-router.post("/charge-log", isAuthenticated, function (req, resp) {
+router.post("/charge-log", isAuthenticated, (req, resp) => {
   try {
-    sql.connect(dbConfig.CONFIG, function (err) {
+    sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
 
       var query = ``;
@@ -86,7 +86,7 @@ router.post("/charge-log", isAuthenticated, function (req, resp) {
         query += ` AND [y] LIKE '%${filters.y}%'`;
       }
       const sqlReq = new sql.Request();
-      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log] ${query}`, function (err, result) {
+      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log] ${query}`, (err, result) => {
         if (isValid(err)) return onError(resp, 'db query error', err);
 
         const totalCount = result.recordset[0][''];
@@ -108,7 +108,7 @@ router.post("/charge-log", isAuthenticated, function (req, resp) {
         const querySize = pagination.pageSize;
         query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log] ${query}`, function (err, result) {
+        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log] ${query}`, (err, result) => {
           if (isValid(err)) return onError(resp, 'db query error', err);
 
           const data = result.recordset.map((item, index) => {
@@ -132,9 +132,9 @@ router.post("/charge-log", isAuthenticated, function (req, resp) {
   }
 });
 
-router.post("/use-log", isAuthenticated, function (req, resp) {
+router.post("/use-log", isAuthenticated, (req, resp) => {
   try {
-    sql.connect(dbConfig.CONFIG, function (err) {
+    sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
 
       var query = ``;
@@ -146,7 +146,7 @@ router.post("/use-log", isAuthenticated, function (req, resp) {
         query += ` AND [use_type] LIKE '%${filters.use_type}%'`;
       }
       const sqlReq = new sql.Request();
-      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log] ${query}`, function (err, result) {
+      sqlReq.query(`SELECT COUNT(*) FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log] ${query}`, (err, result) => {
         if (isValid(err)) return onError(resp, 'db query error', err);
 
         const totalCount = result.recordset[0][''];
@@ -168,7 +168,7 @@ router.post("/use-log", isAuthenticated, function (req, resp) {
         const querySize = pagination.pageSize;
         query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log] ${query}`, function (err, result) {
+        sqlReq.query(`SELECT * FROM ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log] ${query}`, (err, result) => {
           if (isValid(err)) onError(resp, 'db query error', err);
 
           const data = result.recordset.map((item, index) => {

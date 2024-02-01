@@ -8,7 +8,7 @@ import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { handleResponse } from "../../utils/net";
 import { utcToLocal } from "../../utils/basic";
 
-function LbItemCardDesc({ name, value }) {
+const LbItemCardDesc = ({ name, value }) => {
   return (
     <>
       <div className="flex justify-end col-span-3">{name}:</div>
@@ -18,7 +18,7 @@ function LbItemCardDesc({ name, value }) {
 }
 
 export const LbItemCard = ({ item, fetchItems }) => {
-  function onDelete() {
+  const onDelete = () => {
     AxiosClient.post('/admin/item/delete', {
       item_index: item.item_index,
     })

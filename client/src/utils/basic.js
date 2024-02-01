@@ -1,11 +1,11 @@
-export function isValid(val) {
+export const isValid = (val) => {
   return !(val === null || val === undefined);
 }
 
-export function isInvalid(val) {
+export const isInvalid = (val) => {
   return val === null || val === undefined;
 }
 
-export function utcToLocal(utcStr) {
+export const utcToLocal = (utcStr) => {
   return new Date(utcStr).toLocaleString()
 }

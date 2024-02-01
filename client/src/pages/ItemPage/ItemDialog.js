@@ -1,13 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import questionMarkImage from '../../assets/question.png';
 import { LbButton } from "../../components/Button";
 import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
 import { API_URL, AxiosClient } from "../../utils/axios";
-import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { isInvalid, isValid } from "../../utils/basic";
-import questionMarkImage from '../../assets/question.png';
 import { handleResponse } from "../../utils/net";
+import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 
 export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   const [itemImage, setItemImage] = useState(
@@ -28,7 +28,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   const [itemLimit, setItemLimit] = useState(item ? item.item_limit : undefined);
   const [itemIndex, setItemIndex] = useState(item ? item.item_index : undefined);
 
-  function onImageChange(e) {
+  const onImageChange = (e) => {
     try {
       setItemImage({
         preview: URL.createObjectURL(e.target.files[0]),
@@ -43,31 +43,31 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     setItemName(e.target.value);
   }
 
-  function onPriceChange(e) {
+  const onPriceChange = (e) => {
     setItemPrice(e.target.value);
   }
 
-  function onClassChange(e) {
+  const onClassChange = (e) => {
     setItemClass(e.target.value);
   }
 
-  function onTypeChange(e) {
+  const onTypeChange = (e) => {
     setItemType(e.target.value);
   }
 
-  function onRarityChange(e) {
+  const onRarityChange = (e) => {
     setItemRarity(e.target.value);
   }
 
-  function onLimitChange(e) {
+  const onLimitChange = (e) => {
     setItemLimit(e.target.value);
   }
 
-  function onIndexChange(e) {
+  const onIndexChange = (e) => {
     setItemIndex(e.target.value);
   }
 
-  function onSubmitHandler(e) {
+  const onSubmitHandler = (e) => {
     e.preventDefault();
 
     if (isInvalid(itemImage.data) && addOrEdit) {

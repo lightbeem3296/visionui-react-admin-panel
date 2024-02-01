@@ -14,13 +14,13 @@ const upload = multer({ dest: consts.UPLOAD_DIR });
 const ITEM_IMAGE_DIR = path.join(consts.PUBLIC_DIR, 'images', 'items');
 const ITEM_SHOP_TABLE = '[CREEDIAN].[dbo].[item_shop]';
 
-function getImagePath(item_index) {
+getImagePath = (item_index) => {
   return path.join(ITEM_IMAGE_DIR, item_index + '.png');
 }
 
-router.post("/fetch", isAuthenticated, function (req, resp) {
+router.post("/fetch", isAuthenticated, (req, resp) => {
   try {
-    sql.connect(dbConfig.CONFIG, function (err) {
+    sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
 
       const filter = req.body;
@@ -58,7 +58,7 @@ router.post("/fetch", isAuthenticated, function (req, resp) {
       }
 
       const sqlReq = new sql.Request();
-      sqlReq.query(`SELECT * FROM ${ITEM_SHOP_TABLE} ${query}`, function (err, result) {
+      sqlReq.query(`SELECT * FROM ${ITEM_SHOP_TABLE} ${query}`, (err, result) => {
         if (isValid(err)) return onError(resp, 'db query error', err);
 
         return onSuccess(resp, result.recordset);
@@ -81,7 +81,7 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
         FROM ${ITEM_SHOP_TABLE}
         WHERE
           [item_index]=${details.item_index}`,
-        function (err, result) {
+        (err, result) => {
           if (isValid(err)) return onError(resp, 'db query error', err);
 
           const totalCount = result.recordset[0][''];
@@ -133,7 +133,7 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
   }
 });
 
-router.post("/update", isAuthenticated, upload.single('file'), function (req, resp) {
+router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
   try {
     sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, "db connection error", err);
@@ -145,7 +145,7 @@ router.post("/update", isAuthenticated, upload.single('file'), function (req, re
         FROM ${ITEM_SHOP_TABLE}
         WHERE
           [item_index]=${details.item_index}`,
-        function (err, result) {
+        (err, result) => {
           if (isValid(err)) return onError(resp, 'db query error', err);
 
           const totalCount = result.recordset[0][''];
@@ -194,9 +194,9 @@ router.post("/update", isAuthenticated, upload.single('file'), function (req, re
   }
 });
 
-router.post("/delete", isAuthenticated, function (req, resp) {
+router.post("/delete", isAuthenticated, (req, resp) => {
   try {
-    sql.connect(dbConfig.CONFIG, function (err) {
+    sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
 
       const itemIndex = req.body.item_index;

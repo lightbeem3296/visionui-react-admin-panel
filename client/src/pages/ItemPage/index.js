@@ -21,32 +21,32 @@ export const ItemsPage = () => {
   const [orderByFilter, setOrderByFilter] = useState();
   const [orderDirectionFilter, setOrderDirectionFilter] = useState();
 
-  function onNameFilterChange(e) {
+  const onNameFilterChange = (e) => {
     setNameFilter(e.target.value);
   }
 
-  function onClassFilterChange(e) {
+  const onClassFilterChange = (e) => {
     setClassFilter(e.target.value);
   }
 
-  function onRarityFilterChange(e) {
+  const onRarityFilterChange = (e) => {
     setRarityFilter(e.target.value);
   }
 
-  function onTypeFilterChange(e) {
+  const onTypeFilterChange = (e) => {
     setTypeFilter(e.target.value);
   }
 
-  function onOrderByFilterChange(e) {
+  const onOrderByFilterChange = (e) => {
     setOrderByFilter(e.target.value);
 
   }
 
-  function onOrderDirectionChange(e) {
+  const onOrderDirectionChange = (e) => {
     setOrderDirectionFilter(e.target.value);
   }
 
-  function fetchItems() {
+  const fetchItems = () => {
     setItems([]);
     AxiosClient.post(`/admin/item/fetch`, {
       item_name: nameFilter || '',

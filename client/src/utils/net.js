@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { isValid } from './basic';
 
-export function handleResponse(axiosResponce, okCallback, errCallback) {
+export const handleResponse = (axiosResponce, okCallback, errCallback) => {
   let data = axiosResponce.data;
   if (data.ok === true) {
     if (isValid(okCallback)) {

@@ -3,7 +3,7 @@ import './App.css';
 import { MainRoutes } from './pages/Routes';
 import { Toaster } from 'react-hot-toast';
 
-function App() {
+export const App = () => {
   return (
     <BrowserRouter>
       <Toaster
@@ -24,5 +24,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;
