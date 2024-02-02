@@ -25,8 +25,6 @@ router.post("/fetch", isAuthenticated, (req, resp) => {
 
       const filter = req.body;
 
-      console.log(filter);
-
       const nameFilter = filter.item_name;
       const classFilter = filter.item_class;
       const rarityFilter = filter.item_rarity;
