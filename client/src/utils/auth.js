@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { AxiosClient } from "./axios";
-import { handleResponse } from './net';
+import { goToUrl, handleResponse } from './net';
 
 export const isLoggedIn = () => {
   return localStorage.getItem('logged_in') === "true";
@@ -21,12 +21,12 @@ export const checkSignin = (url) => {
         (msg) => {
           console.log(msg);
           signout();
-          window.location.href = "/signin?url=" + encodeURIComponent(url);
+          goToUrl("/signin?url=" + encodeURIComponent(url));
         });
     })
     .catch((err) => {
       toast.error(err.message);
       signout();
-      window.location.href = "/signin?url=" + encodeURIComponent(url);
+      goToUrl("/signin?url=" + encodeURIComponent(url));
     });
 }

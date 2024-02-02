@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { signout } from "../utils/auth";
 import { API_URL } from "../utils/axios";
-import { handleResponse } from "../utils/net";
+import { goToUrl, handleResponse } from "../utils/net";
 
 /*
   This example requires some changes to your config:
@@ -66,7 +66,7 @@ export const SignInPage = () => {
             localStorage.setItem("refresh_token", data.refresh_token);
             localStorage.setItem("logged_in", true);
 
-            window.location.href = destUrl;
+            goToUrl(destUrl);
           },
           (msg) => {
             setUsernameError(true);

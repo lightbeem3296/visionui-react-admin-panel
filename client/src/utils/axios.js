@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { isInvalid, isValid } from "./basic";
-import { handleResponse } from "./net";
+import { goToUrl, handleResponse } from "./net";
 import { signout } from "./auth";
 
 export const API_URL = "http://localhost:9000";
@@ -63,7 +63,7 @@ AxiosClient.interceptors.response.use(
 
         if (orgReq.url === `${API_URL}/auth/refresh`) {
           signout();
-          window.location.href = "/signin?url=" + encodeURIComponent(window.location.pathname);
+          goToUrl("/signin?url=" + encodeURIComponent(window.location.pathname));
 
           return Promise.reject({ message: 'token refresh failed' });
         }
