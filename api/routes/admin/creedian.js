@@ -62,8 +62,8 @@ router.post("/creedians", isAuthenticated, (req, resp) => {
         });
       });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 
@@ -127,8 +127,8 @@ router.post("/charge-log", isAuthenticated, (req, resp) => {
         });
       });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 
@@ -187,8 +187,8 @@ router.post("/use-log", isAuthenticated, (req, resp) => {
         });
       });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 

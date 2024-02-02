@@ -32,8 +32,8 @@ export const LbItemCard = ({ item, fetchItems }) => {
             toast.error(msg);
           });
       })
-      .catch((err) => {
-        toast.error(err.message);
+      .catch((ex) => {
+        toast.error(ex.message);
       });
   }
 

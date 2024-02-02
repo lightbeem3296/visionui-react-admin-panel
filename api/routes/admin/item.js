@@ -57,8 +57,8 @@ router.post("/fetch", isAuthenticated, (req, resp) => {
         return onSuccess(resp, result.recordset);
       });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 
@@ -122,8 +122,8 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
           }
         });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 
@@ -136,10 +136,14 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
 
       var imgTag = null;
       if (isValid(req.file)) {
-        const imgData = fs.readFileSync(req.file.path);
-        fs.rmSync(req.file.path);
-        const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
-        imgTag = `[item_image]='${b64Img}'`;
+        try {
+          const imgData = fs.readFileSync(req.file.path);
+          fs.rmSync(req.file.path);
+          const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
+          imgTag = `[item_image]='${b64Img}'`;
+        } catch (ex) {
+          console.log(ex);
+        }
       }
 
       const sqlReq = new sql.Request();
@@ -179,8 +183,8 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
           }
         });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 
@@ -198,8 +202,8 @@ router.post("/delete", isAuthenticated, (req, resp) => {
         return onSuccess(resp);
       });
     });
-  } catch (err) {
-    return onError(resp, 'unhandled error', err);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
   }
 });
 

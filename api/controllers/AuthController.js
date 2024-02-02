@@ -34,8 +34,8 @@ verifyRefresh = (userId, refreshToken) => {
   try {
     const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
     return decoded.user_id === userId;
-  } catch (err) {
-    console.error(err);
+  } catch (ex) {
+    console.error(ex);
     return false;
   }
 };
@@ -67,7 +67,7 @@ exports.isAuthenticated = (req, resp, next) => {
     } else {
       return onError(resp, 'mismatch user_id & token', null, ERROR_CODE.AUTH);
     }
-  } catch (err) {
-    return onError(resp, 'unhandled error', err, ERROR_CODE.AUTH);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex, ERROR_CODE.AUTH);
   }
 };

@@ -28,8 +28,8 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
         preview: URL.createObjectURL(e.target.files[0]),
         data: e.target.files[0],
       });
-    } catch (err) {
-      toast.error(err.message);
+    } catch (ex) {
+      toast.error(ex.message);
     }
   }
 
@@ -109,8 +109,8 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
             toast.error(msg);
           })
       })
-      .catch((err) => {
-        toast.error(err.message);
+      .catch((ex) => {
+        toast.error(ex.message);
       });
   }
 

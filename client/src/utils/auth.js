@@ -24,8 +24,8 @@ export const checkSignin = (url) => {
           goToUrl("/signin?url=" + encodeURIComponent(url));
         });
     })
-    .catch((err) => {
-      toast.error(err.message);
+    .catch((ex) => {
+      toast.error(ex.message);
       signout();
       goToUrl("/signin?url=" + encodeURIComponent(url));
     });
