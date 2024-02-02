@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
-const { onError, onSuccess } = require('../utils/resp');
+const { onError, onSuccess, ERROR_CODE } = require('../utils/resp');
 const { isInvalid } = require('../utils/basic');
 
 const ACCESS_TOKEN_EXPIRE = '60m';
@@ -50,14 +50,14 @@ exports.refresh = (req, resp) => {
     expiresIn: ACCESS_TOKEN_EXPIRE,
   });
 
-  return onSuccess(resp, {access_token: accessToken});
+  return onSuccess(resp, { access_token: accessToken });
 }
 
 exports.isAuthenticated = (req, resp, next) => {
   try {
     let authorization = req.headers["authorization"];
     if (isInvalid(authorization)) {
-      return onError(resp, 'request header error');
+      return onError(resp, 'request header error', null, ERROR_CODE.AUTH);
     }
     const userId = authorization.split("||")[1];
     const accessToken = authorization.split("||")[2];
@@ -65,9 +65,9 @@ exports.isAuthenticated = (req, resp, next) => {
     if (userId === decoded.user_id) {
       return next();
     } else {
-      return onError(resp, 'mismatch user_id & token');
+      return onError(resp, 'mismatch user_id & token', null, ERROR_CODE.AUTH);
     }
   } catch (err) {
-    return onError(resp, 'unhandled error', err);
+    return onError(resp, 'unhandled error', err, ERROR_CODE.AUTH);
   }
 };

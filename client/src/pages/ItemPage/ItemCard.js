@@ -2,7 +2,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import { LbButton } from "../../components/Button";
 import { LbLabelButton } from "../../components/LabelButton";
-import { API_URL, AxiosClient } from "../../utils/axios";
+import { AxiosClient } from "../../utils/axios";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { handleResponse } from "../../utils/net";
@@ -62,7 +62,7 @@ export const LbItemCard = ({ item, fetchItems }) => {
         </div>
       </div>
       <img
-        src={`${API_URL}/images/items/${item.item_index}.png?_=${Math.random()}`}
+        src={item.item_image}
         alt="item"
         className="mx-auto mt-2 border rounded-md size-40 border-gray-800/50"
       />

@@ -1,6 +1,11 @@
 import toast from "react-hot-toast";
 import { isValid } from './basic';
 
+export const ERROR_CODE = {
+  NORMAL: 0,
+  AUTH: 1,
+};
+
 export const handleResponse = (axiosResponce, okCallback, errCallback) => {
   let data = axiosResponce.data;
   if (data.ok === true) {
@@ -9,7 +14,7 @@ export const handleResponse = (axiosResponce, okCallback, errCallback) => {
     }
   } else if (data.ok === false) {
     if (isValid(errCallback)) {
-      return errCallback(data.msg);
+      return errCallback(data.msg, data.code);
     } else {
       toast.error(data.msg);
     }

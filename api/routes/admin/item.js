@@ -11,12 +11,7 @@ const { isInvalid, isValid } = require('../../utils/basic');
 const { onError, onSuccess } = require('../../utils/resp.js');
 const upload = multer({ dest: consts.UPLOAD_DIR });
 
-const ITEM_IMAGE_DIR = path.join(consts.PUBLIC_DIR, 'images', 'items');
 const ITEM_SHOP_TABLE = '[CREEDIAN].[dbo].[item_shop]';
-
-getImagePath = (item_index) => {
-  return path.join(ITEM_IMAGE_DIR, item_index + '.png');
-}
 
 router.post("/fetch", isAuthenticated, (req, resp) => {
   try {
@@ -71,8 +66,13 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
   try {
     sql.connect(dbConfig.CONFIG, (err) => {
       if (isValid(err)) return onError(resp, 'db connection error', err);
+      if (isInvalid(req.file)) return onError(resp, 'file upload error');
 
       const details = JSON.parse(req.body.details);
+
+      const imgData = fs.readFileSync(req.file.path);
+      fs.rmSync(req.file.path);
+      const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
 
       const sqlReq = new sql.Request();
       sqlReq.query(`SELECT COUNT(*)
@@ -89,36 +89,32 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
             ${ITEM_SHOP_TABLE} (
               [item_index],
               [item_name],
+              [item_image],
               [item_price],
               [item_class],
               [item_rarity],
               [item_type],
               [item_limit],
+              [item_desc],
               [create_date],
               [modify_date])
             VALUES (
               ${details.item_index},
               '${details.item_name}',
+              '${b64Img}',
               ${details.item_price},
               ${details.item_class},
               ${details.item_rarity},
               ${details.item_type},
               ${details.item_limit},
+              '${details.item_desc}',
               getutcdate(),
               getutcdate())`;
 
             // insert into table
             sqlReq.query(query, (err, res) => {
               if (isValid(err)) return onError(resp, 'db query error', err);
-              if (isInvalid(req.file)) return onError(resp, 'file upload error');
 
-              let tmpPath = req.file.path;
-              let dstPath = getImagePath(details.item_index);
-
-              fs.mkdirSync(ITEM_IMAGE_DIR, { recursive: true });
-              if (fs.existsSync(tmpPath)) {
-                fs.renameSync(tmpPath, dstPath);
-              }
               return onSuccess(resp);
             });
           } else {
@@ -138,6 +134,14 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
 
       const details = JSON.parse(req.body.details);
 
+      var imgTag = null;
+      if (isValid(req.file)) {
+        const imgData = fs.readFileSync(req.file.path);
+        fs.rmSync(req.file.path);
+        const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
+        imgTag = `[item_image]='${b64Img}'`;
+      }
+
       const sqlReq = new sql.Request();
       sqlReq.query(`SELECT COUNT(*)
         FROM ${ITEM_SHOP_TABLE}
@@ -153,11 +157,13 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
               SET
                 [item_index]=${details.item_index},
                 [item_name]='${details.item_name}',
+                ${imgTag || ''}
                 [item_price]=${details.item_price},
                 [item_class]=${details.item_class},
                 [item_rarity]=${details.item_rarity},
                 [item_type]=${details.item_type},
                 [item_limit]=${details.item_limit},
+                [item_desc]='${details.item_desc}',
                 [modify_date]=getutcdate()
               WHERE
                 [item_index]=${details.old_index}`;
@@ -166,20 +172,6 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
             sqlReq.query(query, (err, res) => {
               if (isValid(err)) return onError(resp, 'db query error', err);
 
-              let oldImgPath = getImagePath(details.old_index);
-              let imgPath = getImagePath(details.item_index);
-
-              if (fs.existsSync(oldImgPath)) {
-                fs.renameSync(oldImgPath, imgPath);
-              }
-
-              if (isValid(req.file)) {
-                let tmpPath = req.file.path;
-                fs.mkdirSync(ITEM_IMAGE_DIR, { recursive: true });
-                if (fs.existsSync(tmpPath)) {
-                  fs.renameSync(tmpPath, imgPath);
-                }
-              }
               return onSuccess(resp);
             });
           } else {
@@ -202,10 +194,7 @@ router.post("/delete", isAuthenticated, (req, resp) => {
       const sqlReq = new sql.Request();
       sqlReq.query(query, (err, res) => {
         if (isValid(err)) return onError(resp, 'db query error', err);
-        let imgPath = getImagePath(itemIndex);
-        if (fs.existsSync(imgPath)) {
-          fs.rmSync(imgPath);
-        }
+
         return onSuccess(resp);
       });
     });

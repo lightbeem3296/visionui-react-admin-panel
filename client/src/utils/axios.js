@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { isInvalid, isValid } from "./basic";
-import { goToUrl, handleResponse } from "./net";
+import { goToUrl, handleResponse, ERROR_CODE } from "./net";
 import { signout } from "./auth";
 
 export const API_URL = "http://localhost:9000";
@@ -58,23 +58,27 @@ AxiosClient.interceptors.response.use(
       () => {
         return resp;
       },
-      async (msg) => {
-        const orgReq = resp.config;
+      async (msg, code) => {
+        if (code !== ERROR_CODE.AUTH) {
+          return resp;
+        } else {
+          const orgReq = resp.config;
 
-        if (orgReq.url === `${API_URL}/auth/refresh`) {
-          signout();
-          goToUrl("/signin?url=" + encodeURIComponent(window.location.pathname));
+          if (orgReq.url === `${API_URL}/auth/refresh`) {
+            signout();
+            goToUrl("/signin?url=" + encodeURIComponent(window.location.pathname));
 
-          return Promise.reject({ message: 'token refresh failed' });
+            return Promise.reject({ message: 'token refresh failed' });
+          }
+
+          if (isInvalid(orgReq._retry) && (!orgReq._retry)) {
+            orgReq._retry = true;
+            await doRefreshToken();
+            return AxiosClient(orgReq);
+          }
+
+          return Promise.reject({ message: msg });
         }
-
-        if (isInvalid(orgReq._retry) && (!orgReq._retry)) {
-          orgReq._retry = true;
-          await doRefreshToken();
-          return AxiosClient(orgReq);
-        }
-
-        return Promise.reject({ message: msg });
       });
   },
   (err) => {

@@ -4,22 +4,16 @@ import questionMarkImage from '../../assets/question.png';
 import { LbButton } from "../../components/Button";
 import { LbInput } from "../../components/Input";
 import { LbSelect } from "../../components/Select";
-import { API_URL, AxiosClient } from "../../utils/axios";
+import { AxiosClient } from "../../utils/axios";
 import { isInvalid, isValid } from "../../utils/basic";
 import { handleResponse } from "../../utils/net";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 
 export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
-  const [itemImage, setItemImage] = useState(
-    item
-      ? {
-        preview: `${API_URL}/images/items/${item.item_index}.png?_=${Math.random()}`,
-        data: null,
-      }
-      : {
-        preview: questionMarkImage,
-        data: null,
-      });
+  const [itemImage, setItemImage] = useState({
+    preview: item ? item.item_image : questionMarkImage,
+    data: null,
+  });
   const [itemName, setItemName] = useState(item ? item.item_name : undefined);
   const [itemPrice, setItemPrice] = useState(item ? item.item_price : undefined);
   const [itemClass, setItemClass] = useState(item ? item.item_class : undefined);
@@ -98,6 +92,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
       item_type: itemType,
       item_rarity: itemRarity,
       item_class: itemClass,
+      item_desc: 'description',
     }));
     AxiosClient.post(addOrEdit ? '/admin/item/add' : 'admin/item/update', form, {
       headers: {
