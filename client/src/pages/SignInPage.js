@@ -1,9 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
-import { AxiosClient } from "../utils/axios";
+import { API_URL, AxiosClient } from "../utils/axios";
 import { handleResponse } from "../utils/net";
 import { signout } from "../utils/auth";
+import axios from "axios";
 
 /*
   This example requires some changes to your config:
@@ -53,7 +54,7 @@ export const SignInPage = () => {
     signout();
     setPending(true);
 
-    AxiosClient.post('/auth/signin', {
+    axios.post(`${API_URL}/auth/signin`, {
       "username": username,
       "password": password,
     })
