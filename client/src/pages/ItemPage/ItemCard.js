@@ -42,12 +42,10 @@ export const LbItemCard = ({ item, fetchItems }) => {
   return (
     <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[16rem] h-fit bg-gray-900/30 border-gray-800/50 hover:border-gray-700 lb-transition">
       <div className="flex justify-end w-full space-x-1">
-        <div className="popover">
-          <LbLabelButton htmlFor={modalId}>
-            <PencilIcon className="size-4" />
-          </LbLabelButton>
-          <LbItemDialog id={modalId} addOrEdit={false} item={item} fetchItems={fetchItems} />
-        </div>
+        <LbLabelButton htmlFor={modalId}>
+          <PencilIcon className="size-4" />
+        </LbLabelButton>
+        <LbItemDialog id={modalId} addOrEdit={false} item={item} fetchItems={fetchItems} />
         <div className="popover">
           <LbLabelButton className="popover-trigger" tabIndex="0">
             <TrashIcon className="size-4" />
@@ -64,14 +62,14 @@ export const LbItemCard = ({ item, fetchItems }) => {
       <img
         src={item.item_image}
         alt="item"
-        className="mx-auto mt-2 border rounded-md size-40 border-gray-800/50"
+        className="mx-auto mt-2 border rounded-md bg-gray-100/10 size-40 border-gray-800/50"
       />
       <div className="grid grid-cols-10 px-2 mx-auto mt-4 gap-x-2 auto-cols-min w-fit">
         <LbItemCardDesc name="Name" value={item.item_name} />
         <LbItemCardDesc name="Price" value={item.item_price} />
         <LbItemCardDesc name="Class" value={LbItemClasses[item.item_class]} />
-        <LbItemCardDesc name="Type" value={LbItemTypes[item.item_type]} />
         <LbItemCardDesc name="Rarity" value={LbItemRarities[item.item_rarity]} />
+        <LbItemCardDesc name="Type" value={LbItemTypes[item.item_type]} />
         <LbItemCardDesc name="Limit" value={item.item_limit} />
         <LbItemCardDesc name="Index" value={item.item_index} />
         <LbItemCardDesc name="Created" value={utcToLocal(item.create_date)} />

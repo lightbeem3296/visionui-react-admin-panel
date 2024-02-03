@@ -1,5 +1,3 @@
-import React from "react";
-
 export const LbSelect = ({ label, options, ...rest }) => {
   return (
     <div className="py-1 form-field">

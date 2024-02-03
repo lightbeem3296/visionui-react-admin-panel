@@ -140,7 +140,7 @@ router.post("/update", isAuthenticated, upload.single('file'), (req, resp) => {
           const imgData = fs.readFileSync(req.file.path);
           fs.rmSync(req.file.path);
           const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
-          imgTag = `[item_image]='${b64Img}'`;
+          imgTag = `[item_image]='${b64Img}',`;
         } catch (ex) {
           console.log(ex);
         }

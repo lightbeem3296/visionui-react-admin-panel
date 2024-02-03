@@ -39,7 +39,6 @@ export const ItemsPage = () => {
 
   const onOrderByFilterChange = (e) => {
     setOrderByFilter(e.target.value);
-
   }
 
   const onOrderDirectionChange = (e) => {
