@@ -40,7 +40,7 @@ export const LbItemCard = ({ item, fetchItems }) => {
   const modalId = 'modal-' + item.item_name;
 
   return (
-    <div className="flex-none p-2 m-1 text-sm text-gray-500 border-2 rounded-lg w-[16rem] h-fit bg-gray-900/30 border-gray-800/50 hover:border-gray-700 lb-transition">
+    <div className="flex-none p-2 m-1 text-sm text-gray-400 border-2 rounded-lg w-[16rem] h-fit bg-gray-900/30 border-gray-800/50 hover:border-gray-700 lb-transition">
       <div className="flex justify-end w-full space-x-1">
         <LbLabelButton htmlFor={modalId}>
           <PencilIcon className="size-4" />
@@ -62,7 +62,7 @@ export const LbItemCard = ({ item, fetchItems }) => {
       <img
         src={item.item_image}
         alt="item"
-        className="mx-auto mt-2 border rounded-md bg-gray-100/10 size-40 border-gray-800/50"
+        className="mx-auto mt-2 rounded-md size-40"
       />
       <div className="grid grid-cols-10 px-2 mx-auto mt-4 gap-x-2 auto-cols-min w-fit">
         <LbItemCardDesc name="Name" value={item.item_name} />

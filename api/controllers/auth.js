@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
-const { onError, onSuccess, ERROR_CODE } = require('../utils/resp');
+const { onError, onSuccess, ERROR_CODE } = require('../utils/net.js');
 const { isInvalid } = require('../utils/basic');
 
 const ACCESS_TOKEN_EXPIRE = '60m';
@@ -30,7 +30,7 @@ exports.signin = async (req, resp) => {
   });
 };
 
-verifyRefresh = (userId, refreshToken) => {
+const verifyRefresh = (userId, refreshToken) => {
   try {
     const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
     return decoded.user_id === userId;

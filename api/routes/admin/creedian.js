@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const sql = require("mssql");
 const dbConfig = require("../../config/db.js");
-const { isAuthenticated } = require("../../controllers/AuthController.js");
+const { isAuthenticated } = require("../../controllers/auth.js");
 const { isValid } = require('../../utils/basic.js');
-const { onError, onSuccess } = require('../../utils/resp.js');
+const { onError, onSuccess } = require('../../utils/net.js');
 
 const CREEDIAN_DB_NAME = '[CREEDIAN]';
 

@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const sql = require("mssql");
 const dbConfig = require("../../config/db.js");
-const { isAuthenticated } = require("../../controllers/AuthController.js");
+const { isAuthenticated } = require("../../controllers/auth.js");
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const consts = require('../../consts.js');
-const { isInvalid, isValid } = require('../../utils/basic');
-const { onError, onSuccess } = require('../../utils/resp.js');
+const { isInvalid, isValid } = require('../../utils/basic.js');
+const { onError, onSuccess } = require('../../utils/net.js');
 const upload = multer({ dest: consts.UPLOAD_DIR });
 
 const ITEM_SHOP_TABLE = '[CREEDIAN].[dbo].[item_shop]';
