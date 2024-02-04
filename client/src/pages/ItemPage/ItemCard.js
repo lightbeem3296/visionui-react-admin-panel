@@ -6,12 +6,12 @@ import { AxiosClient } from "../../utils/axios";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
 import { handleResponse } from "../../utils/net";
-import { utcToLocal } from "../../utils/basic";
+import { utc2Local } from "../../utils/basic";
 
 const LbItemCardDesc = ({ name, value }) => {
   return (
     <>
-      <div className="flex justify-end col-span-3">{name}:</div>
+      <div className="flex justify-start col-span-3">{name}:</div>
       <div className="col-span-7 text-wrap">{value}</div>
     </>
   );
@@ -72,8 +72,8 @@ export const LbItemCard = ({ item, fetchItems }) => {
         <LbItemCardDesc name="Type" value={LbItemTypes[item.item_type]} />
         <LbItemCardDesc name="Limit" value={item.item_limit} />
         <LbItemCardDesc name="Index" value={item.item_index} />
-        <LbItemCardDesc name="Created" value={utcToLocal(item.create_date)} />
-        <LbItemCardDesc name="Modified" value={utcToLocal(item.modify_date)} />
+        <LbItemCardDesc name="Created" value={utc2Local(item.create_date)} />
+        <LbItemCardDesc name="Modified" value={utc2Local(item.modify_date)} />
       </div>
     </div>
   );

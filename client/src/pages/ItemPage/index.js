@@ -49,9 +49,9 @@ export const ItemsPage = () => {
     setItems([]);
     AxiosClient.post(`/admin/item/fetch`, {
       item_name: nameFilter || '',
-      item_class: classFilter * 1,
-      item_rarity: rarityFilter * 1,
-      item_type: typeFilter * 1,
+      item_class: +classFilter,
+      item_rarity: +rarityFilter,
+      item_type: +typeFilter,
       order_by: orderByFilter,
       order_dir: orderDirectionFilter,
     })
