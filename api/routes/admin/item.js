@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sql = require("mssql");
-const dbConfig = require("../../config/db.js");
+const dbConfig = require("../../controllers/db.js");
 const { isAuthenticated } = require("../../controllers/auth.js");
 const multer = require('multer');
 const fs = require('fs');

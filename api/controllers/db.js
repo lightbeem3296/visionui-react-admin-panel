@@ -1,4 +1,6 @@
-exports.CONFIG = {
+const mssql = require('mssql');
+
+const DB_CONFIG = {
   server: "192.168.48.128",
   port: 1433,
   user: "sa",
@@ -8,3 +10,5 @@ exports.CONFIG = {
   },
   dialect: "mssql",
 };
+
+exports.DbPool = new mssql.ConnectionPool(DB_CONFIG);
