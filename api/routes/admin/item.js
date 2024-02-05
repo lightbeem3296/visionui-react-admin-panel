@@ -79,43 +79,43 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
         WHERE   [item_index]=${details.item_index}`)
     const totalCount = result.recordset[0][''];
 
-    if (totalCount === 0) {
-      let itemHash = md5(JSON.stringify(details) + (new Date().toISOString()));
-      const query = `INSERT INTO
-        ${ITEM_SHOP_TABLE} (
-          [item_hash],
-          [item_index],
-          [item_name],
-          [item_image],
-          [item_price],
-          [item_class],
-          [item_rarity],
-          [item_type],
-          [item_limit],
-          [item_desc],
-          [create_date],
-          [modify_date])
-        VALUES (
-          '${itemHash}',
-          ${details.item_index},
-          '${details.item_name}',
-          '${b64Img}',
-          ${details.item_price},
-          ${details.item_class},
-          ${details.item_rarity},
-          ${details.item_type},
-          ${details.item_limit},
-          '${details.item_desc}',
-          getdate(),
-          getdate())`;
-
-      // insert into table
-      await DbPool.request().query(query)
-
-      return onSuccess(resp);
-    } else {
-      onError(resp, 'item index must be unique');
+    if (totalCount !== 0) {
+      return onError(resp, 'duplicated item index');
     }
+
+    let itemHash = md5(JSON.stringify(details) + (new Date().toISOString()));
+    const query = `INSERT INTO
+      ${ITEM_SHOP_TABLE} (
+        [item_hash],
+        [item_index],
+        [item_name],
+        [item_image],
+        [item_price],
+        [item_class],
+        [item_rarity],
+        [item_type],
+        [item_limit],
+        [item_desc],
+        [create_date],
+        [modify_date])
+      VALUES (
+        '${itemHash}',
+        ${details.item_index},
+        '${details.item_name}',
+        '${b64Img}',
+        ${details.item_price},
+        ${details.item_class},
+        ${details.item_rarity},
+        ${details.item_type},
+        ${details.item_limit},
+        '${details.item_desc}',
+        getdate(),
+        getdate())`;
+
+    // insert into table
+    await DbPool.request().query(query)
+
+    return onSuccess(resp);
   } catch (ex) {
     return onError(resp, 'unhandled error', ex);
   }
@@ -138,14 +138,27 @@ router.post("/update", isAuthenticated, upload.single('file'), async (req, resp)
     }
 
     await DbPool.connect()
-    const result = await DbPool.request().query(`
+    let result = await DbPool.request().query(`
         SELECT  COUNT(*)
         FROM    ${ITEM_SHOP_TABLE}
         WHERE   [item_hash] = '${details.item_hash}'`)
-    const totalCount = result.recordset[0][''];
+    let totalCount = result.recordset[0][''];
 
     if (totalCount === 0) {
       return onError(resp, 'item not found');
+    }
+
+    await DbPool.connect();
+    result = await DbPool.request()
+      .query(`
+        SELECT  COUNT(*)
+        FROM    ${ITEM_SHOP_TABLE}
+        WHERE   [item_index] = ${details.item_index}
+        AND     [item_hash] <> '${details.item_hash}'`)
+    totalCount = result.recordset[0][''];
+
+    if (totalCount !== 0) {
+      return onError(resp, 'duplicated item index');
     }
 
     const query = `UPDATE ${ITEM_SHOP_TABLE}
