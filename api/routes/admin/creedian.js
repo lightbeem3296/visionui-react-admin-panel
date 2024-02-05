@@ -36,7 +36,7 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
         query += ` ORDER BY [${queryField}] DESC`;
       }
     } else {
-      query += ` ORDER BY [user_id] ASC`;
+      query += ` ORDER BY [log_date] DESC`;
     }
 
     const pagination = req.query.pagination;
@@ -53,7 +53,7 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
-        log_date: timeStr(item.log_date),
+        log_date: timeStr(item.log_date, true),
       }
     });
 
@@ -102,7 +102,7 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
         query += ` ORDER BY [${queryField}] DESC`;
       }
     } else {
-      query += ` ORDER BY [user_id] ASC`;
+      query += ` ORDER BY [log_date] DESC`;
     }
 
     const pagination = req.query.pagination;
@@ -119,7 +119,7 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
-        log_date: timeStr(item.log_date),
+        log_date: timeStr(item.log_date, true),
       }
     });
 
@@ -163,7 +163,7 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
         query += ` ORDER BY [${queryField}] DESC`;
       }
     } else {
-      query += ` ORDER BY [user_id] ASC`;
+      query += ` ORDER BY [use_date] DESC`;
     }
 
     const pagination = req.query.pagination;
@@ -180,7 +180,7 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
-        use_date: timeStr(item.use_date),
+        use_date: timeStr(item.use_date, true),
       }
     });
 

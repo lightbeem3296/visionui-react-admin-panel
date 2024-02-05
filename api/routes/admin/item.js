@@ -215,7 +215,7 @@ router.post('/item-log', isAuthenticated, async (req, resp) => {
         query += ` ORDER BY [${queryField}] DESC`;
       }
     } else {
-      query += ` ORDER BY [user_id] ASC`;
+      query += ` ORDER BY [log_date] DESC`;
     }
 
     const pagination = req.query.pagination;
@@ -235,7 +235,7 @@ router.post('/item-log', isAuthenticated, async (req, resp) => {
         item_class: LbItemClasses[item.item_class],
         item_rarity: LbItemRarities[item.item_rarity],
         item_type: LbItemTypes[item.item_type],
-        log_date: timeStr(item.log_date),
+        log_date: timeStr(item.log_date, true),
       }
     });
 
