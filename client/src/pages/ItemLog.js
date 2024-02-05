@@ -33,14 +33,6 @@ export const ItemLogPage = () => {
       search: true,
     },
     {
-      title: 'Item Price',
-      dataIndex: 'item_price',
-      key: 'item_price',
-      sorter: {
-        compare: Sorter.DEFAULT,
-      },
-    },
-    {
       title: 'Item Class',
       dataIndex: 'item_class',
       key: 'item_class',
@@ -60,6 +52,30 @@ export const ItemLogPage = () => {
       title: 'Item Type',
       dataIndex: 'item_type',
       key: 'item_type',
+      sorter: {
+        compare: Sorter.DEFAULT,
+      },
+    },
+    {
+      title: 'Item Price',
+      dataIndex: 'item_price',
+      key: 'item_price',
+      sorter: {
+        compare: Sorter.DEFAULT,
+      },
+    },
+    {
+      title: 'Creedians Before',
+      dataIndex: 'creeds_before',
+      key: 'creeds_before',
+      sorter: {
+        compare: Sorter.DEFAULT,
+      },
+    },
+    {
+      title: 'Creedians After',
+      dataIndex: 'creeds_after',
+      key: 'creeds_after',
       sorter: {
         compare: Sorter.DEFAULT,
       },

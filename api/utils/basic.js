@@ -9,8 +9,8 @@ exports.isValid = (val) => {
 exports.timeStr = (isoTimeStr) => {
   const date = new Date(isoTimeStr);
   let year = date.getUTCFullYear();
-  let month = date.getUTCMonth();
-  let day = date.getUTCDay();
+  let month = date.getUTCMonth()+1;
+  let day = date.getUTCDate();
   let hour = date.getUTCHours();
   let minute = date.getUTCMinutes();
   let second = date.getUTCSeconds();
