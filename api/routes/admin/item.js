@@ -4,7 +4,7 @@ const { isAuthenticated } = require("../../controllers/auth.js");
 const multer = require('multer');
 const fs = require('fs');
 const consts = require('../../consts.js');
-const { isInvalid, isValid } = require('../../utils/basic.js');
+const { isInvalid, isValid, timeStr } = require('../../utils/basic.js');
 const { onError, onSuccess } = require('../../utils/net.js');
 const { DbPool } = require('../../controllers/db.js');
 const { utc2Local } = require('../../utils/basic.js');
@@ -102,8 +102,8 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
           ${details.item_type},
           ${details.item_limit},
           '${details.item_desc}',
-          getutcdate(),
-          getutcdate())`;
+          getdate(),
+          getdate())`;
 
       // insert into table
       await DbPool.request().query(query)
@@ -156,7 +156,7 @@ router.post("/update", isAuthenticated, upload.single('file'), async (req, resp)
           [item_type]=${details.item_type},
           [item_limit]=${details.item_limit},
           [item_desc]='${details.item_desc}',
-          [modify_date]=getutcdate()
+          [modify_date]=getdate()
         WHERE
           [item_index]=${details.old_index}`;
 
@@ -237,6 +237,7 @@ router.post('/item-log', isAuthenticated, async (req, resp) => {
         item_class: LbItemClasses[item.item_class],
         item_rarity: LbItemRarities[item.item_rarity],
         item_type: LbItemTypes[item.item_type],
+        log_date: timeStr(item.log_date),
       }
     });
 

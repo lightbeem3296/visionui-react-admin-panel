@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sql = require("mssql");
 const { isAuthenticated } = require("../../controllers/auth.js");
-const { isValid } = require('../../utils/basic.js');
+const { isValid, timeStr } = require('../../utils/basic.js');
 const { onError, onSuccess } = require('../../utils/net.js');
 const { DbPool } = require('../../controllers/db.js');
 
@@ -53,6 +53,7 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
+        log_date: timeStr(item.log_date),
       }
     });
 
@@ -118,6 +119,7 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
+        log_date: timeStr(item.log_date),
       }
     });
 
@@ -178,6 +180,7 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
       return {
         key: index,
         ...item,
+        use_date: timeStr(item.use_date),
       }
     });
 
