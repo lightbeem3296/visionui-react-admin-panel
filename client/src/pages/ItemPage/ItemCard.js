@@ -21,7 +21,7 @@ const LbItemCardDesc = ({ name, value }) => {
 export const LbItemCard = ({ item, fetchItems }) => {
   const onDelete = () => {
     AxiosClient.post('/admin/item/delete', {
-      item_index: item.item_index,
+      item_hash: item.item_hash,
     })
       .then((resp) => {
         handleResponse(resp,
@@ -53,7 +53,7 @@ export const LbItemCard = ({ item, fetchItems }) => {
           </LbLabelButton>
           <div className="p-4 border border-gray-800 popover-content popover-bottom bg-gray-900/90 backdrop-blur-sm" tabIndex="0">
             <div className="border-t border-gray-800 popover-arrow"></div>
-            <div className="whitespace-pre-wrap">
+            <div className="whitespace-pre-wrap overflow-auto max-h-[20rem]">
               {item.item_desc}
             </div>
           </div>

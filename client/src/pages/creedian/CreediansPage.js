@@ -5,7 +5,7 @@ export const CreediansPage = () => {
 
   const columns = [
     {
-      title: 'User Id',
+      title: 'User ID',
       dataIndex: 'user_id',
       sorter: {
         compare: Sorter.DEFAILT,

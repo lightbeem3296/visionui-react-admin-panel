@@ -90,7 +90,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     const form = new FormData();
     form.append('file', itemImage.data);
     form.append('details', JSON.stringify({
-      old_index: isValid(item) ? item.item_index : 0,
+      item_hash: isValid(item) ? item.item_hash : null,
       item_name: itemName,
       item_price: itemPrice,
       item_index: itemIndex,
@@ -133,7 +133,6 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
           <form className="mx-auto form-group" onSubmit={onSubmitHandler}>
 
             <div className="grid grid-cols-2">
-              <LbText label='Description' className='h-[10rem]' placeholder='Item description here' value={itemDesc} onChange={onDescChange} />
               <div className="flex flex-col justify-center space-y-2">
                 <img
                   className="mx-auto border border-gray-700 bg-gray-100/30 size-40 rounded-xl"
@@ -147,8 +146,8 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
                   onChange={onImageChange}
                 />
               </div>
+              <LbText label='Description' className='h-[12.5rem] mb-[1.4rem]' placeholder='Item description here' value={itemDesc} onChange={onDescChange} />
             </div>
-            {/* <div className="divider" /> */}
             <div className="grid grid-cols-2 gap-x-2">
               <LbInput label="Item Name" placeholder='Item name here' required value={itemName} onChange={onNameChange} />
               <LbSelect label="Class" options={LbItemClasses} value={itemClass} onChange={onClassChange} />

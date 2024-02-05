@@ -9,6 +9,7 @@ const { onError, onSuccess } = require('../../utils/net.js');
 const { DbPool } = require('../../controllers/db.js');
 const { utc2Local } = require('../../utils/basic.js');
 const { LbItemClasses, LbItemRarities, LbItemTypes } = require('./def.js');
+const md5 = require('md5');
 const upload = multer({ dest: consts.UPLOAD_DIR });
 
 const ITEM_SHOP_TABLE = '[CREEDIAN].[dbo].[item_shop]';
@@ -79,8 +80,10 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
     const totalCount = result.recordset[0][''];
 
     if (totalCount === 0) {
+      let itemHash = md5(JSON.stringify(details) + (new Date().toISOString()));
       const query = `INSERT INTO
         ${ITEM_SHOP_TABLE} (
+          [item_hash],
           [item_index],
           [item_name],
           [item_image],
@@ -93,6 +96,7 @@ router.post("/add", isAuthenticated, upload.single('file'), async (req, resp) =>
           [create_date],
           [modify_date])
         VALUES (
+          '${itemHash}',
           ${details.item_index},
           '${details.item_name}',
           '${b64Img}',
@@ -127,7 +131,7 @@ router.post("/update", isAuthenticated, upload.single('file'), async (req, resp)
         const imgData = fs.readFileSync(req.file.path);
         fs.rmSync(req.file.path);
         const b64Img = 'data:image/png;base64,' + Buffer.from(imgData).toString('base64');
-        imgTag = `[item_image]='${b64Img}',`;
+        imgTag = `[item_image] = '${b64Img}',`;
       } catch (ex) {
         console.log(ex);
       }
@@ -137,36 +141,32 @@ router.post("/update", isAuthenticated, upload.single('file'), async (req, resp)
     const result = await DbPool.request().query(`
         SELECT  COUNT(*)
         FROM    ${ITEM_SHOP_TABLE}
-        WHERE   [item_index]=${details.item_index}`)
+        WHERE   [item_hash] = '${details.item_hash}'`)
     const totalCount = result.recordset[0][''];
 
     if (totalCount === 0) {
       return onError(resp, 'item not found');
     }
 
-    if (details.item_index === details.old_index || totalCount === 0) {
-      const query = `UPDATE ${ITEM_SHOP_TABLE}
-        SET
-          [item_index]=${details.item_index},
-          [item_name]='${details.item_name}',
-          ${imgTag || ''}
-          [item_price]=${details.item_price},
-          [item_class]=${details.item_class},
-          [item_rarity]=${details.item_rarity},
-          [item_type]=${details.item_type},
-          [item_limit]=${details.item_limit},
-          [item_desc]='${details.item_desc}',
-          [modify_date]=getdate()
-        WHERE
-          [item_index]=${details.old_index}`;
+    const query = `UPDATE ${ITEM_SHOP_TABLE}
+      SET
+        [item_index] = ${details.item_index},
+        [item_name] = '${details.item_name}',
+        ${imgTag || ''}
+        [item_price] = ${details.item_price},
+        [item_class] = ${details.item_class},
+        [item_rarity] = ${details.item_rarity},
+        [item_type] = ${details.item_type},
+        [item_limit] = ${details.item_limit},
+        [item_desc] = '${details.item_desc}',
+        [modify_date] = getdate()
+      WHERE
+        [item_hash] = '${details.item_hash}'`;
 
-      // update table
-      await DbPool.request().query(query)
+    // update table
+    await DbPool.request().query(query)
 
-      return onSuccess(resp);
-    } else {
-      onError(resp, 'item index must be unique');
-    }
+    return onSuccess(resp);
   } catch (ex) {
     return onError(resp, 'unhandled error', ex);
   }
@@ -174,8 +174,8 @@ router.post("/update", isAuthenticated, upload.single('file'), async (req, resp)
 
 router.post("/delete", isAuthenticated, async (req, resp) => {
   try {
-    const itemIndex = req.body.item_index;
-    const query = `DELETE FROM ${ITEM_SHOP_TABLE} WHERE [item_index]=${itemIndex}`;
+    const itemHash = req.body.item_hash;
+    const query = `DELETE FROM ${ITEM_SHOP_TABLE} WHERE [item_hash]='${itemHash}'`;
 
     await DbPool.connect()
     await DbPool.request().query(query)

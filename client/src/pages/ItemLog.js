@@ -5,7 +5,7 @@ export const ItemLogPage = () => {
 
   const columns = [
     {
-      title: 'User Id',
+      title: 'User ID',
       dataIndex: 'user_id',
       key: 'user_id',
       sorter: {
