@@ -7,6 +7,8 @@ const consts = require('../../consts.js');
 const { isInvalid, isValid } = require('../../utils/basic.js');
 const { onError, onSuccess } = require('../../utils/net.js');
 const { DbPool } = require('../../controllers/db.js');
+const { utc2Local } = require('../../utils/basic.js');
+const { LbItemClasses, LbItemRarities, LbItemTypes } = require('./def.js');
 const upload = multer({ dest: consts.UPLOAD_DIR });
 
 const ITEM_SHOP_TABLE = '[CREEDIAN].[dbo].[item_shop]';
@@ -179,6 +181,71 @@ router.post("/delete", isAuthenticated, async (req, resp) => {
     await DbPool.request().query(query)
 
     return onSuccess(resp);
+  } catch (ex) {
+    return onError(resp, 'unhandled error', ex);
+  }
+});
+
+router.post('/item-log', isAuthenticated, async (req, resp) => {
+  try {
+    await DbPool.connect()
+
+    var query = ``;
+
+    const filters = req.query.filters;
+    console.log(req.query);
+    if (isValid(filters)) {
+      query += ` WHERE [user_id] LIKE '%${filters.user_id}%'`;
+      query += ` AND [character_name] LIKE '%${filters.character_name}%'`;
+      query += ` AND [item_name] LIKE '%${filters.item_name}%'`;
+    }
+
+    var result = await DbPool.request()
+      .query(`
+        SELECT  COUNT(*)
+        FROM    [CREEDIAN].[dbo].[item_log]
+        ${query}`)
+    const totalCount = result.recordset[0][''];
+
+    const queryOrder = req.query.order;
+    const queryField = req.query.field;
+    if (queryOrder) {
+      if (queryOrder === "ascend") {
+        query += ` ORDER BY [${queryField}] ASC`;
+      } else if (queryOrder === "descend") {
+        query += ` ORDER BY [${queryField}] DESC`;
+      }
+    } else {
+      query += ` ORDER BY [user_id] ASC`;
+    }
+
+    const pagination = req.query.pagination;
+    const queryOffset = (pagination.current - 1) * pagination.pageSize;
+    const querySize = pagination.pageSize;
+    query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
+
+    result = await DbPool.request()
+      .query(`
+        SELECT  *
+        FROM    [CREEDIAN].[dbo].[item_log]
+        ${query}`)
+    console.log(query);
+    const data = result.recordset.map((item, index) => {
+      return {
+        key: index,
+        ...item,
+        item_class: LbItemClasses[item.item_class],
+        item_rarity: LbItemRarities[item.item_rarity],
+        item_type: LbItemTypes[item.item_type],
+      }
+    });
+
+    return onSuccess(resp, {
+      rows: data,
+      details: {
+        total: totalCount,
+      },
+    });
   } catch (ex) {
     return onError(resp, 'unhandled error', ex);
   }

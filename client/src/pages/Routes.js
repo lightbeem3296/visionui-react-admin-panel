@@ -8,6 +8,7 @@ import { CreediansPage } from "./creedian/CreediansPage";
 import { ChargeLogPage } from "./creedian/ChargeLogPage";
 import { UseLogPage } from "./creedian/UseLogPage";
 import { MainLayout } from "./Layout";
+import { ItemLogPage } from "./ItemLog";
 
 export const itemTypeRoute = 'route';
 export const itemTypeItem = 'item';
@@ -60,10 +61,23 @@ export const mainRouteItems = [
     DashboardPage,
   ),
   genRouteItem(
-    itemTypeItem,
+    itemTypeSeparate,
+  ),
+  genRouteItem(
+    itemTypeHeader,
     'Items',
-    'items',
+  ),
+  genRouteItem(
+    itemTypeItem,
+    'Item Shop',
+    'item-shop',
     ItemsPage,
+  ),
+  genRouteItem(
+    itemTypeItem,
+    'Item Log',
+    'item-log',
+    ItemLogPage,
   ),
   genRouteItem(
     itemTypeSeparate,
