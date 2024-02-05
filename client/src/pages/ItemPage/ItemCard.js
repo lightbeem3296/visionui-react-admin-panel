@@ -1,12 +1,13 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
+import { BsQuestionCircle } from 'react-icons/bs';
 import { LbButton } from "../../components/Button";
 import { LbLabelButton } from "../../components/LabelButton";
 import { AxiosClient } from "../../utils/axios";
+import { timeStr } from "../../utils/basic";
+import { handleResponse } from "../../utils/net";
 import { LbItemDialog } from "./ItemDialog";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
-import { handleResponse } from "../../utils/net";
-import { timeStr, utc2Local } from "../../utils/basic";
 
 const LbItemCardDesc = ({ name, value }) => {
   return (
@@ -48,10 +49,21 @@ export const LbItemCard = ({ item, fetchItems }) => {
         <LbItemDialog id={modalId} addOrEdit={false} item={item} fetchItems={fetchItems} />
         <div className="popover">
           <LbLabelButton className="popover-trigger" tabIndex="0">
+            <BsQuestionCircle className="size-4" />
+          </LbLabelButton>
+          <div className="p-4 border border-gray-800 popover-content popover-bottom bg-gray-900/90 backdrop-blur-sm" tabIndex="0">
+            <div className="border-t border-gray-800 popover-arrow"></div>
+            <div className="whitespace-pre-wrap">
+              {item.item_desc}
+            </div>
+          </div>
+        </div>
+        <div className="popover">
+          <LbLabelButton className="popover-trigger" tabIndex="0">
             <TrashIcon className="size-4" />
           </LbLabelButton>
           <div className="w-40 p-4 border border-gray-800 popover-content popover-bottom-left bg-gray-900/90 backdrop-blur-sm" tabIndex="0">
-            <div className="popover-arrow"></div>
+            <div className="border-t border-gray-800 popover-arrow"></div>
             Are you sure?
             <div className="flex justify-end w-full">
               <LbButton className='w-20 mt-2' onClick={onDelete}>Yes</LbButton>

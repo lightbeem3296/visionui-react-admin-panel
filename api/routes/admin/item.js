@@ -193,7 +193,6 @@ router.post('/item-log', isAuthenticated, async (req, resp) => {
     var query = ``;
 
     const filters = req.query.filters;
-    console.log(req.query);
     if (isValid(filters)) {
       query += ` WHERE [user_id] LIKE '%${filters.user_id}%'`;
       query += ` AND [character_name] LIKE '%${filters.character_name}%'`;
@@ -229,7 +228,6 @@ router.post('/item-log', isAuthenticated, async (req, resp) => {
         SELECT  *
         FROM    [CREEDIAN].[dbo].[item_log]
         ${query}`)
-    console.log(query);
     const data = result.recordset.map((item, index) => {
       return {
         key: index,

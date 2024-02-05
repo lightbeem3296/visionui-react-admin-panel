@@ -1,8 +1,8 @@
 export const LbInput = ({ label, className, ...rest }) => {
   return (
-    <div className="form-field py-1">
-      <label className="form-label text-xs">{label}</label>
-      <input className="input py-0 h-8 text-sm bg-gray-900 border" {...rest} />
+    <div className="py-1 form-field">
+      <label className="text-xs form-label">{label}</label>
+      <input className={"input py-0 h-8 text-sm bg-gray-900 border " + className} {...rest} />
     </div>
   );
 }

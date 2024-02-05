@@ -8,6 +8,7 @@ import { AxiosClient } from "../../utils/axios";
 import { isInvalid, isValid } from "../../utils/basic";
 import { handleResponse } from "../../utils/net";
 import { LbItemClasses, LbItemRarities, LbItemTypes } from "./def";
+import { LbText } from "../../components/Text";
 
 export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
   const [itemImage, setItemImage] = useState({
@@ -15,6 +16,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     data: null,
   });
   const [itemName, setItemName] = useState(item ? item.item_name : undefined);
+  const [itemDesc, setItemDesc] = useState(item ? item.item_desc : undefined);
   const [itemPrice, setItemPrice] = useState(item ? item.item_price : undefined);
   const [itemClass, setItemClass] = useState(item ? item.item_class : undefined);
   const [itemRarity, setItemRarity] = useState(item ? item.item_rarity : undefined);
@@ -61,6 +63,10 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
     setItemIndex(e.target.value);
   }
 
+  const onDescChange = (e) => {
+    setItemDesc(e.target.value);
+  }
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -92,7 +98,7 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
       item_type: itemType,
       item_rarity: itemRarity,
       item_class: itemClass,
-      item_desc: 'description',
+      item_desc: itemDesc,
     }));
     AxiosClient.post(addOrEdit ? '/admin/item/add' : 'admin/item/update', form, {
       headers: {
@@ -125,18 +131,24 @@ export const LbItemDialog = ({ id, addOrEdit, fetchItems, item }) => {
             <h2 className="text-xl font-semibold text-center">{addOrEdit ? 'Add New Item' : 'Edit Item'}</h2>
           </div>
           <form className="mx-auto form-group" onSubmit={onSubmitHandler}>
-            <img
-              className="mx-auto border border-gray-700 bg-gray-100/30 size-40 rounded-xl"
-              alt=""
-              src={itemImage.preview}
-            />
-            <input
-              type="file"
-              accept="image/png"
-              className="mx-auto w-[6.25rem] input-file input-file-sm"
-              onChange={onImageChange}
-            />
-            <div className="text-sm divider" />
+
+            <div className="grid grid-cols-2">
+              <LbText label='Description' className='h-[10rem]' placeholder='Item description here' value={itemDesc} onChange={onDescChange} />
+              <div className="flex flex-col justify-center space-y-2">
+                <img
+                  className="mx-auto border border-gray-700 bg-gray-100/30 size-40 rounded-xl"
+                  alt=""
+                  src={itemImage.preview}
+                />
+                <input
+                  type="file"
+                  accept="image/png"
+                  className="mx-auto w-[6.25rem] input-file input-file-sm"
+                  onChange={onImageChange}
+                />
+              </div>
+            </div>
+            {/* <div className="divider" /> */}
             <div className="grid grid-cols-2 gap-x-2">
               <LbInput label="Item Name" placeholder='Item name here' required value={itemName} onChange={onNameChange} />
               <LbSelect label="Class" options={LbItemClasses} value={itemClass} onChange={onClassChange} />
