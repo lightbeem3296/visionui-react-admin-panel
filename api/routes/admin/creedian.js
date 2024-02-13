@@ -10,14 +10,15 @@ const CREEDIAN_DB_NAME = '[CREEDIAN]';
 
 router.post("/creedians", isAuthenticated, async (req, resp) => {
   try {
+    const { pagination, order, field, filters } = req.body;
+
     await DbPool.connect();
 
     var query = ``;
 
-    const filters = req.query.filters;
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id}%'`;
+      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
+      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
     }
 
     var result = await DbPool.request()
@@ -27,19 +28,16 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    const queryOrder = req.query.order;
-    const queryField = req.query.field;
-    if (isValid(queryOrder)) {
-      if (queryOrder === "ascend") {
-        query += ` ORDER BY [${queryField}] ASC`;
-      } else if (queryOrder === "descend") {
-        query += ` ORDER BY [${queryField}] DESC`;
+    if (isValid(order)) {
+      if (order === "ascend") {
+        query += ` ORDER BY [${field}] ASC`;
+      } else if (order === "descend") {
+        query += ` ORDER BY [${field}] DESC`;
       }
     } else {
       query += ` ORDER BY [log_date] DESC`;
     }
 
-    const pagination = req.query.pagination;
     const queryOffset = (pagination.current - 1) * pagination.pageSize;
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
@@ -70,20 +68,21 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
 
 router.post("/charge-log", isAuthenticated, async (req, resp) => {
   try {
-    await DbPool.connect()
+    const { pagination, order, field, filters } = req.body;
+
+    await DbPool.connect();
 
     var query = ``;
 
-    const filters = req.query.filters;
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id}%'`;
-      query += ` AND [character_name] LIKE '%${filters.character_name}%'`;
-      query += ` AND [character_no] LIKE '%${filters.character_no}%'`;
-      query += ` AND [charge_type] LIKE '%${filters.charge_type}%'`;
-      query += ` AND [map] LIKE '%${filters.map}%'`;
-      query += ` AND [x] LIKE '%${filters.x}%'`;
-      query += ` AND [y] LIKE '%${filters.y}%'`;
+      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
+      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
+      query += ` AND [character_name] LIKE '%${filters.character_name || ''}%'`;
+      query += ` AND [character_no] LIKE '%${filters.character_no || ''}%'`;
+      query += ` AND [charge_type] LIKE '%${filters.charge_type || ''}%'`;
+      query += ` AND [map] LIKE '%${filters.map || ''}%'`;
+      query += ` AND [x] LIKE '%${filters.x || ''}%'`;
+      query += ` AND [y] LIKE '%${filters.y || ''}%'`;
     }
 
     var result = await DbPool.request()
@@ -93,19 +92,16 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    const queryOrder = req.query.order;
-    const queryField = req.query.field;
-    if (queryOrder) {
-      if (queryOrder === "ascend") {
-        query += ` ORDER BY [${queryField}] ASC`;
-      } else if (queryOrder === "descend") {
-        query += ` ORDER BY [${queryField}] DESC`;
+    if (order) {
+      if (order === "ascend") {
+        query += ` ORDER BY [${field}] ASC`;
+      } else if (order === "descend") {
+        query += ` ORDER BY [${field}] DESC`;
       }
     } else {
       query += ` ORDER BY [log_date] DESC`;
     }
 
-    const pagination = req.query.pagination;
     const queryOffset = (pagination.current - 1) * pagination.pageSize;
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
@@ -136,15 +132,16 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
 
 router.post("/use-log", isAuthenticated, async (req, resp) => {
   try {
+    const { pagination, order, field, filters } = req.body;
+
     await DbPool.connect();
 
     var query = ``;
 
-    const filters = req.query.filters;
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id}%'`;
-      query += ` AND [use_type] LIKE '%${filters.use_type}%'`;
+      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
+      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
+      query += ` AND [use_type] LIKE '%${filters.use_type || ''}%'`;
     }
 
     var result = await DbPool.request()
@@ -154,19 +151,16 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    const queryOrder = req.query.order;
-    const queryField = req.query.field;
-    if (isValid(queryOrder)) {
-      if (queryOrder === "ascend") {
-        query += ` ORDER BY [${queryField}] ASC`;
-      } else if (queryOrder === "descend") {
-        query += ` ORDER BY [${queryField}] DESC`;
+    if (isValid(order)) {
+      if (order === "ascend") {
+        query += ` ORDER BY [${field}] ASC`;
+      } else if (order === "descend") {
+        query += ` ORDER BY [${field}] DESC`;
       }
     } else {
       query += ` ORDER BY [use_date] DESC`;
     }
 
-    const pagination = req.query.pagination;
     const queryOffset = (pagination.current - 1) * pagination.pageSize;
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;

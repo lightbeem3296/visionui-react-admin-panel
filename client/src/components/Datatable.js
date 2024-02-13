@@ -1,6 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Input, Space, Table, theme } from 'antd';
-import qs from 'qs';
 import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import toast from 'react-hot-toast';
@@ -126,7 +125,7 @@ export const Datatable = ({ url, columns }) => {
 
   const fetchData = () => {
     setLoading(true);
-    AxiosClient.post(`${url}?${qs.stringify(tableParams)}`)
+    AxiosClient.post(url, tableParams)
       .then((resp) => {
         handleResponse(resp,
           (data) => {
