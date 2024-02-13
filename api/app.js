@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors");
 const consts = require('./consts');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const port = 9000;
 
