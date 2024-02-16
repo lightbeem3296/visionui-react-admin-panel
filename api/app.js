@@ -9,8 +9,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const port = 9000;
-
 var authRouter = require('./routes/auth');
 var adminRouter = require('./routes/admin');
 
@@ -43,6 +41,6 @@ app.use((err, req, res, next) => {
 
 // module.exports = app;
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`)
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}!`)
 });

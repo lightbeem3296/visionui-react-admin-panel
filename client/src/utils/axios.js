@@ -4,7 +4,7 @@ import { isInvalid, isValid } from "./basic";
 import { goToUrl, handleResponse, ERROR_CODE } from "./net";
 import { signout } from "./auth";
 
-export const API_URL = "http://localhost:9000";
+export const API_URL = "http://localhost:9001";
 
 export const AxiosClient = axios.create({
   baseURL: API_URL,
