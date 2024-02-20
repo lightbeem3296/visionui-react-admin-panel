@@ -12,3 +12,25 @@ const DB_CONFIG = {
 };
 
 exports.DbPool = new mssql.ConnectionPool(DB_CONFIG);
+
+exports.dbQuerySafe = async (dbPool, inputs, query) => {
+  let req = dbPool.request();
+  for (let i in inputs) {
+    let input = inputs[i];
+    req = req.input(...input);
+  }
+  return await req.query(query);
+}
+
+exports.dbExecSP = async (dbPool, inputs, outputs, spName) => {
+  let req = dbPool.request();
+  for (let i in inputs) {
+    let input = inputs[i];
+    req = req.input(...input);
+  }
+  for (let i in outputs) {
+    let output = outputs[i];
+    req = req.output(...output);
+  }
+  return await req.execute(spName);
+}

@@ -4,7 +4,7 @@ const sql = require("mssql");
 const { isAuthenticated } = require("../../controllers/auth.js");
 const { isValid, timeStr } = require('../../utils/basic.js');
 const { onError, onSuccess } = require('../../utils/net.js');
-const { DbPool } = require('../../controllers/db.js');
+const { DbPool, dbQuerySafe } = require('../../controllers/db.js');
 
 const CREEDIAN_DB_NAME = '[CREEDIAN]';
 
@@ -14,21 +14,30 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
 
     await DbPool.connect();
 
-    var query = ``;
+    let query = ``;
+    let params = [];
 
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
+      query += ` WHERE [user_no] LIKE @user_no`;
+      params.push(['user_no', sql.VarChar(20), `%${filters.user_no || ''}%`]);
+
+      query += ` AND [user_id] LIKE @user_id`;
+      params.push(['user_id', sql.VarChar(20), `%${filters.user_id || ''}%`]);
     }
 
-    var result = await DbPool.request()
-      .query(`
+    var result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  COUNT(*)
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians]
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    if (isValid(order)) {
+    if (isValid(order) && [
+      'user_id',
+      'user_no',
+      'creedian',
+      'log_date',
+    ].includes(field)) {
       if (order === "ascend") {
         query += ` ORDER BY [${field}] ASC`;
       } else if (order === "descend") {
@@ -42,8 +51,8 @@ router.post("/creedians", isAuthenticated, async (req, resp) => {
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-    result = await DbPool.request()
-      .query(`
+    result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  *
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians]
         ${query}`)
@@ -73,26 +82,46 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
     await DbPool.connect();
 
     var query = ``;
+    let params = [];
 
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
-      query += ` AND [character_name] LIKE '%${filters.character_name || ''}%'`;
-      query += ` AND [character_no] LIKE '%${filters.character_no || ''}%'`;
-      query += ` AND [charge_type] LIKE '%${filters.charge_type || ''}%'`;
-      query += ` AND [map] LIKE '%${filters.map || ''}%'`;
-      query += ` AND [x] LIKE '%${filters.x || ''}%'`;
-      query += ` AND [y] LIKE '%${filters.y || ''}%'`;
+      query += ` WHERE [user_no] LIKE @user_no`;
+      params.push(['user_no', sql.VarChar(20), `%${filters.user_no || ''}%`]);
+
+      query += ` AND [user_id] LIKE @user_id`;
+      params.push(['user_id', sql.VarChar(20), `%${filters.user_id || ''}%`]);
+
+      query += ` AND [character_name] LIKE @character_name`;
+      params.push(['character_name', sql.VarChar(40), `%${filters.character_name || ''}%`]);
+
+      query += ` AND [character_no] LIKE @character_no`;
+      params.push(['character_no', sql.VarChar(20), `%${filters.character_no || ''}%`]);
+
+      query += ` AND [charge_type] LIKE @charge_type`;
+      params.push(['charge_type', sql.VarChar(40), `%${filters.charge_type || ''}%`]);
+
+      query += ` AND [map] LIKE @map`;
+      params.push(['map', sql.VarChar(20), `%${filters.map || ''}%`]);
     }
 
-    var result = await DbPool.request()
-      .query(`
+    var result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  COUNT(*)
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log]
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    if (order) {
+    if (order && [
+      'user_id',
+      'user_no',
+      'amount',
+      'character_name',
+      'character_no',
+      'charge_type',
+      'map',
+      'item_index',
+      'log_date',
+    ].includes(field)) {
       if (order === "ascend") {
         query += ` ORDER BY [${field}] ASC`;
       } else if (order === "descend") {
@@ -106,11 +135,11 @@ router.post("/charge-log", isAuthenticated, async (req, resp) => {
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-    result = await DbPool.request()
-      .query(`
+    result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  *
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_charge_log]
-        ${query}`)
+        ${query}`);
     const data = result.recordset.map((item, index) => {
       return {
         key: index,
@@ -137,21 +166,33 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
     await DbPool.connect();
 
     var query = ``;
+    let params = [];
 
     if (isValid(filters)) {
-      query += ` WHERE [user_no] LIKE '%${filters.user_no || ''}%'`;
-      query += ` AND [user_id] LIKE '%${filters.user_id || ''}%'`;
-      query += ` AND [use_type] LIKE '%${filters.use_type || ''}%'`;
+      query += ` WHERE [user_no] LIKE @user_no`;
+      params.push(['user_no', sql.VarChar(20), `%${filters.user_no || ''}%`]);
+
+      query += ` AND [user_id] LIKE @user_id`;
+      params.push(['user_id', sql.VarChar(20), `%${filters.user_id || ''}%`]);
+
+      query += ` AND [use_type] LIKE @use_type`;
+      params.push(['use_type', sql.VarChar(20), `%${filters.use_type || ''}%`]);
     }
 
-    var result = await DbPool.request()
-      .query(`
+    var result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  COUNT(*)
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log]
         ${query}`)
     const totalCount = result.recordset[0][''];
 
-    if (isValid(order)) {
+    if (isValid(order) && [
+      'user_id',
+      'user_no',
+      'amount',
+      'use_type',
+      'use_date',
+    ].includes(field)) {
       if (order === "ascend") {
         query += ` ORDER BY [${field}] ASC`;
       } else if (order === "descend") {
@@ -165,8 +206,8 @@ router.post("/use-log", isAuthenticated, async (req, resp) => {
     const querySize = pagination.pageSize;
     query += ` OFFSET ${queryOffset} ROWS FETCH NEXT ${querySize} ROWS ONLY`;
 
-    result = await DbPool.request()
-      .query(`
+    result = await dbQuerySafe(DbPool,
+      params, `
         SELECT  *
         FROM    ${CREEDIAN_DB_NAME}.[dbo].[user_creedians_use_log]
         ${query}`)

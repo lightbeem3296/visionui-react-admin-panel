@@ -62,12 +62,10 @@ export const ChargeLogPage = () => {
     {
       title: 'X',
       dataIndex: 'x',
-      search: true,
     },
     {
       title: 'Y',
       dataIndex: 'y',
-      search: true,
     },
     {
       title: 'Item Index',

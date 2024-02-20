@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -7,7 +6,7 @@ const cors = require("cors");
 const consts = require('./consts');
 const dotenv = require('dotenv');
 
-dotenv.config();
+dotenv.config({ path: '.env.development' });
 
 var authRouter = require('./routes/auth');
 var adminRouter = require('./routes/admin');
@@ -28,19 +27,6 @@ app.use(express.static(consts.PUBLIC_DIR));
 app.use('/auth', authRouter);
 app.use("/admin", adminRouter);
 
-// error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-// module.exports = app;
-
 app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}!`)
+  console.log(`Admin backend is listening on port ${process.env.PORT}!`)
 });
